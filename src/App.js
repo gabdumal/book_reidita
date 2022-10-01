@@ -1,19 +1,11 @@
 import './App.css';
+import Cabecalho from './components/Cabecalho/Cabecalho.js';
 
 function App() {
   return (
     <div className="App">
       <Cabecalho />
     </div>
-  );
-}
-
-function Cabecalho() {
-  return (
-    <header>
-      Corte madeira. Construa Casas.
-      Contrate trabalhadores. Expanda.
-    </header>
   );
 }
 
