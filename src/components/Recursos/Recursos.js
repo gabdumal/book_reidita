@@ -1,10 +1,11 @@
 import './Recursos.css';
 
-export default function Recursos() {
+export default function Recursos(props) {
+    const estoque = props.estoque;
     return (
         <section className='Recursos'>
-            <Recurso nome="Madeira" imagem="🌲" valor="0" />
-            <Recurso nome="Ouro" imagem="💰" valor="0" />
+            <Recurso nome="Madeira" imagem="🌲" valor={estoque.madeira} />
+            <Recurso nome="Ouro" imagem="💰" valor={estoque.ouro} />
         </section>
     );
 }

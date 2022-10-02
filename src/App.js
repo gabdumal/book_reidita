@@ -2,12 +2,19 @@ import './App.css';
 import Cabecalho from './components/Cabecalho/Cabecalho.js';
 import Recursos from './components/Recursos/Recursos.js';
 import Acoes from './components/Acoes/Acoes.js';
+import React, { useState } from "react";
 
 export default function App() {
+
+  const [estoque, setEstoque] = useState({
+    madeira: 0,
+    ouro: 0
+  });
+
   return (
     <div className="App">
       <Cabecalho />
-      <Recursos />
+      <Recursos estoque={estoque} />
       <Acoes />
     </div>
   );
