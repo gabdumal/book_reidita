@@ -2,6 +2,7 @@ import './App.css';
 import Cabecalho from './components/Cabecalho/Cabecalho.js';
 import Recursos from './components/Recursos/Recursos.js';
 import Acoes from './components/Acoes/Acoes.js';
+import Rodape from './components/Rodape/Rodape.js';
 import React, { useState } from "react";
 
 export default function App() {
@@ -51,6 +52,7 @@ export default function App() {
       <Cabecalho />
       <Recursos estoque={estoque} />
       <Acoes transacoes={transacoes} handleClick={handleClick} />
+      <Rodape></Rodape>
     </div>
   );
 }
