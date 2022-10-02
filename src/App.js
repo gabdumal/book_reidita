@@ -13,7 +13,13 @@ export default function App() {
 
   const handleClick = (e) => {
     const id = e.target.id;
-    console.log(id);
+    switch (id) {
+      case "cortarBtn":
+        setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira + 1 }));
+        break;
+      default:
+        break;
+    }
   };
 
   return (
