@@ -11,11 +11,16 @@ export default function App() {
     ouro: 0
   });
 
+  const handleClick = (e) => {
+    const id = e.target.id;
+    console.log(id);
+  };
+
   return (
     <div className="App">
       <Cabecalho />
       <Recursos estoque={estoque} />
-      <Acoes />
+      <Acoes handleClick={handleClick} />
     </div>
   );
 }

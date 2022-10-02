@@ -1,10 +1,10 @@
 import './Acoes.css';
 
-export default function Acoes() {
+export default function Acoes(props) {
     return (
         <section className='Acoes'>
-            <Acao nome="Cortar madeira" trocas={[{ recurso: "madeira", valor: 1 }]} />
-            <Acao nome="Vender madeira" trocas={[{ recurso: "madeira", valor: -1 }, { recurso: "ouro", valor: +1 }]} />
+            <Acao id="cortarBtn" nome="Cortar madeira" trocas={[{ recurso: "madeira", valor: 1 }]} handleClick={props.handleClick} />
+            <Acao id="venderBtn" nome="Vender madeira" trocas={[{ recurso: "madeira", valor: -1 }, { recurso: "ouro", valor: +1 }]} handleClick={props.handleClick} />
         </section>
     );
 }
@@ -41,7 +41,7 @@ function Acao(props) {
 
     return (
         <div className='Acao'>
-            <button>{props.nome}</button>
+            <button id={props.id} onClick={props.handleClick}>{props.nome}</button>
             <div>{listaTrocas}</div>
         </div>
     );
