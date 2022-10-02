@@ -3,8 +3,10 @@ import './Cabecalho.css';
 export default function Cabecalho() {
     return (
         <header className='Cabecalho'>
-            Corte madeira. Construa Casas.
-            Contrate trabalhadores. Expanda.
+            <h1>
+                Corte madeira. Construa casas.
+                Contrate trabalhadores. Expanda.
+            </h1>
         </header>
     );
 }
