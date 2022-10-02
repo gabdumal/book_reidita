@@ -17,6 +17,11 @@ export default function App() {
       case "cortarBtn":
         setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira + 1 }));
         break;
+      case "venderBtn":
+        if (estoque.madeira >= 1) {
+          setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira - 1, ouro: prevState.ouro + 1 }));
+        }
+        break;
       default:
         break;
     }
