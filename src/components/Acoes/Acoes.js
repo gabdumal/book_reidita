@@ -8,6 +8,7 @@ export default function Acoes(props) {
             <Acao id="venderBtn" nome="Vender madeira" trocas={transacoes.vender} handleClick={props.handleClick} />
             <Acao id="construirBtn" nome="Construir casa" trocas={transacoes.construir} handleClick={props.handleClick} />
             <Acao id="contratarLenhadorBtn" nome="Contratar lenhador" trocas={transacoes.contratarLenhador} handleClick={props.handleClick} />
+            <Acao id="abrirComercioBtn" nome="Abrir comércio" trocas={transacoes.abrirComercio} handleClick={props.handleClick} />
         </section>
     );
 }
@@ -28,7 +29,8 @@ function Acao(props) {
             texto += "+";
         }
 
-        texto += valor + " " + recurso;
+        texto += valor + " ";
+        texto += recurso === "comercio" ? "comércio" : recurso;
 
         // Adiciona plural conforme necessário
         if (valor !== 1 && valor !== -1) {

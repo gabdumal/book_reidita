@@ -20,6 +20,7 @@ export default function App() {
     vender: { madeira: -1, ouro: 1 },
     construir: { madeira: -5, ouro: -5, casa: +1 },
     contratarLenhador: { ouro: -10, casa: -1, trabalhador: 1 },
+    abrirComercio: { ouro: -150, trabalhador: -3, comercio: 1 },
   });
 
   // Guarda velocidade dos processos
@@ -34,8 +35,12 @@ export default function App() {
         setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira + transacoes.cortar.madeira * multiplicador }));
         break;
       case "vender":
-        if (estoque.madeira >= transacoes.vender.madeira * -1) {
-          setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira + transacoes.vender.madeira * multiplicador, ouro: prevState.ouro + transacoes.vender.ouro * multiplicador }));
+        if (estoque.madeira > 0) {
+          let quantidade = transacoes.vender.madeira * -1 * multiplicador;
+          if (estoque.madeira < quantidade) {
+            quantidade = estoque.madeira;
+          }
+          setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira - quantidade, ouro: prevState.ouro + quantidade }));
         }
         break;
       case "construir":
@@ -46,6 +51,11 @@ export default function App() {
       case "contratarLenhador":
         if (estoque.ouro >= transacoes.contratarLenhador.ouro * -1 && estoque.casa >= transacoes.contratarLenhador.casa * -1) {
           setEstoque((prevState) => ({ ...prevState, ouro: prevState.ouro + transacoes.contratarLenhador.ouro, casa: prevState.casa + transacoes.contratarLenhador.casa, trabalhador: prevState.trabalhador + transacoes.contratarLenhador.trabalhador }));
+        }
+        break;
+      case "abrirComercio":
+        if (estoque.ouro >= transacoes.abrirComercio.ouro * -1 && estoque.trabalhador >= transacoes.abrirComercio.trabalhador * -1) {
+          setEstoque((prevState) => ({ ...prevState, ouro: prevState.ouro + transacoes.abrirComercio.ouro, trabalhador: prevState.trabalhador + transacoes.abrirComercio.trabalhador, comercio: prevState.comercio + transacoes.abrirComercio.comercio }));
         }
         break;
       default:
