@@ -31,6 +31,11 @@ export default function App() {
 
   const [vendaAutomatica, setVendaAutomatica] = useState(false);
 
+  const [upgrades, setUpgrades] = useState({
+    lenhadores: 1000,
+    comercios: 10000
+  });
+
   function executaTransacao(id, multiplicador = 1) {
     switch (id) {
       case "cortar":
@@ -65,6 +70,15 @@ export default function App() {
     }
   }
 
+  function compraUpgrade(id) {
+    const processo = id === "lenhadores" ? "cortar" : "vender";
+    if (estoque.ouro >= upgrades[id]) {
+      setEstoque((prevState) => ({ ...prevState, ouro: prevState.ouro - upgrades[id] }));
+      setProcessos((prevState) => ({ ...prevState, [processo]: prevState[processo] + 1 }));
+      setUpgrades((prevState) => ({ ...prevState, [id]: Math.round(prevState[id] * 2.25) }));
+    }
+  }
+
   useEffect(() => {
     const intervalo = setInterval(() => {
       executaTransacao("cortar", estoque.trabalhador * processos.cortar);
@@ -75,9 +89,14 @@ export default function App() {
     return () => clearInterval(intervalo);
   });
 
-  const handleClick = (e) => {
+  const handleClickAcao = (e) => {
     const id = e.target.id;
     executaTransacao(id.slice(0, -3));
+  };
+
+  const handleClickUpgrade = (e) => {
+    const id = e.currentTarget.id;
+    compraUpgrade(id.slice(0, -3));
   };
 
   const handleChange = () => {
@@ -88,8 +107,8 @@ export default function App() {
     <div className="App">
       <Cabecalho />
       <Recursos estoque={estoque} />
-      <Acoes transacoes={transacoes} handleClick={handleClick} />
-      <Rodape estoque={estoque} transacoes={transacoes} processos={processos} vendaAutomatica={vendaAutomatica} handleChange={handleChange} />
+      <Acoes transacoes={transacoes} handleClick={handleClickAcao} />
+      <Rodape estoque={estoque} transacoes={transacoes} processos={processos} vendaAutomatica={vendaAutomatica} upgrades={upgrades} handleChange={handleChange} handleClick={handleClickUpgrade} />
     </div>
   );
 }
