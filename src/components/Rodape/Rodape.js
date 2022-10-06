@@ -6,7 +6,7 @@ export default function Rodape(props) {
     return (
         <footer className='Rodape'>
             <Loja />
-            <Status estoque={props.estoque} transacoes={props.transacoes} processos={props.processos} />
+            <Status estoque={props.estoque} transacoes={props.transacoes} processos={props.processos} vendaAutomatica={props.vendaAutomatica} handleChange={props.handleChange} />
         </footer>
     );
 }

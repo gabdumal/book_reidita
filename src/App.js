@@ -29,6 +29,8 @@ export default function App() {
     vender: 1
   });
 
+  const [vendaAutomatica, setVendaAutomatica] = useState(false);
+
   function executaTransacao(id, multiplicador = 1) {
     switch (id) {
       case "cortar":
@@ -66,7 +68,9 @@ export default function App() {
   useEffect(() => {
     const intervalo = setInterval(() => {
       executaTransacao("cortar", estoque.trabalhador * processos.cortar);
-      executaTransacao("vender", estoque.comercio * processos.vender);
+      if (vendaAutomatica) {
+        executaTransacao("vender", estoque.comercio * processos.vender);
+      }
     }, 1000);
     return () => clearInterval(intervalo);
   });
@@ -76,12 +80,16 @@ export default function App() {
     executaTransacao(id.slice(0, -3));
   };
 
+  const handleChange = () => {
+    setVendaAutomatica(!vendaAutomatica);
+  }
+
   return (
     <div className="App">
       <Cabecalho />
       <Recursos estoque={estoque} />
       <Acoes transacoes={transacoes} handleClick={handleClick} />
-      <Rodape estoque={estoque} transacoes={transacoes} processos={processos} />
+      <Rodape estoque={estoque} transacoes={transacoes} processos={processos} vendaAutomatica={vendaAutomatica} handleChange={handleChange} />
     </div>
   );
 }
