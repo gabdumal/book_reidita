@@ -1,18 +1,17 @@
-import './App.css';
-import Cabecalho from './components/Cabecalho/Cabecalho.js';
-import Recursos from './components/Recursos/Recursos.js';
-import Acoes from './components/Acoes/Acoes.js';
-import Rodape from './components/Rodape/Rodape.js';
+import "./App.css";
+import Cabecalho from "./components/Cabecalho/Cabecalho.js";
+import Recursos from "./components/Recursos/Recursos.js";
+import Acoes from "./components/Acoes/Acoes.js";
+import Rodape from "./components/Rodape/Rodape.js";
 import React, { useState, useEffect } from "react";
 
 export default function App() {
-
   const [estoque, setEstoque] = useState({
     madeira: 0,
     ouro: 0,
     casa: 0,
     trabalhador: 0,
-    comercio: 0
+    comercio: 0,
   });
 
   const [transacoes, setTransacoes] = useState({
@@ -26,20 +25,24 @@ export default function App() {
   // Guarda velocidade dos processos
   const [processos, setProcessos] = useState({
     cortar: 1,
-    vender: 1
+    vender: 1,
   });
 
   const [vendaAutomatica, setVendaAutomatica] = useState(false);
 
   const [upgrades, setUpgrades] = useState({
     lenhadores: 1000,
-    comercios: 10000
+    comercios: 10000,
   });
 
   function executaTransacao(id, multiplicador = 1) {
     switch (id) {
       case "cortar":
-        setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira + transacoes.cortar.madeira * multiplicador }));
+        setEstoque((prevState) => ({
+          ...prevState,
+          madeira:
+            prevState.madeira + transacoes.cortar.madeira * multiplicador,
+        }));
         break;
       case "vender":
         if (estoque.madeira > 0) {
@@ -47,22 +50,52 @@ export default function App() {
           if (estoque.madeira < quantidade) {
             quantidade = estoque.madeira;
           }
-          setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira - quantidade, ouro: prevState.ouro + quantidade }));
+          setEstoque((prevState) => ({
+            ...prevState,
+            madeira: prevState.madeira - quantidade,
+            ouro: prevState.ouro + quantidade,
+          }));
         }
         break;
       case "construir":
-        if (estoque.madeira >= transacoes.construir.madeira * -1 && estoque.ouro >= transacoes.construir.ouro * -1) {
-          setEstoque((prevState) => ({ ...prevState, madeira: prevState.madeira + transacoes.construir.madeira, ouro: prevState.ouro + transacoes.construir.ouro, casa: prevState.casa + transacoes.construir.casa }));
+        if (
+          estoque.madeira >= transacoes.construir.madeira * -1 &&
+          estoque.ouro >= transacoes.construir.ouro * -1
+        ) {
+          setEstoque((prevState) => ({
+            ...prevState,
+            madeira: prevState.madeira + transacoes.construir.madeira,
+            ouro: prevState.ouro + transacoes.construir.ouro,
+            casa: prevState.casa + transacoes.construir.casa,
+          }));
         }
         break;
       case "contratarLenhador":
-        if (estoque.ouro >= transacoes.contratarLenhador.ouro * -1 && estoque.casa >= transacoes.contratarLenhador.casa * -1) {
-          setEstoque((prevState) => ({ ...prevState, ouro: prevState.ouro + transacoes.contratarLenhador.ouro, casa: prevState.casa + transacoes.contratarLenhador.casa, trabalhador: prevState.trabalhador + transacoes.contratarLenhador.trabalhador }));
+        if (
+          estoque.ouro >= transacoes.contratarLenhador.ouro * -1 &&
+          estoque.casa >= transacoes.contratarLenhador.casa * -1
+        ) {
+          setEstoque((prevState) => ({
+            ...prevState,
+            ouro: prevState.ouro + transacoes.contratarLenhador.ouro,
+            casa: prevState.casa + transacoes.contratarLenhador.casa,
+            trabalhador:
+              prevState.trabalhador + transacoes.contratarLenhador.trabalhador,
+          }));
         }
         break;
       case "abrirComercio":
-        if (estoque.ouro >= transacoes.abrirComercio.ouro * -1 && estoque.trabalhador >= transacoes.abrirComercio.trabalhador * -1) {
-          setEstoque((prevState) => ({ ...prevState, ouro: prevState.ouro + transacoes.abrirComercio.ouro, trabalhador: prevState.trabalhador + transacoes.abrirComercio.trabalhador, comercio: prevState.comercio + transacoes.abrirComercio.comercio }));
+        if (
+          estoque.ouro >= transacoes.abrirComercio.ouro * -1 &&
+          estoque.trabalhador >= transacoes.abrirComercio.trabalhador * -1
+        ) {
+          setEstoque((prevState) => ({
+            ...prevState,
+            ouro: prevState.ouro + transacoes.abrirComercio.ouro,
+            trabalhador:
+              prevState.trabalhador + transacoes.abrirComercio.trabalhador,
+            comercio: prevState.comercio + transacoes.abrirComercio.comercio,
+          }));
         }
         break;
       default:
@@ -73,9 +106,18 @@ export default function App() {
   function compraUpgrade(id) {
     const processo = id === "lenhadores" ? "cortar" : "vender";
     if (estoque.ouro >= upgrades[id]) {
-      setEstoque((prevState) => ({ ...prevState, ouro: prevState.ouro - upgrades[id] }));
-      setProcessos((prevState) => ({ ...prevState, [processo]: prevState[processo] + 1 }));
-      setUpgrades((prevState) => ({ ...prevState, [id]: Math.round(prevState[id] * 2.25) }));
+      setEstoque((prevState) => ({
+        ...prevState,
+        ouro: prevState.ouro - upgrades[id],
+      }));
+      setProcessos((prevState) => ({
+        ...prevState,
+        [processo]: prevState[processo] + 1,
+      }));
+      setUpgrades((prevState) => ({
+        ...prevState,
+        [id]: Math.round(prevState[id] * 2.25),
+      }));
     }
   }
 
@@ -101,14 +143,22 @@ export default function App() {
 
   const handleChange = () => {
     setVendaAutomatica(!vendaAutomatica);
-  }
+  };
 
   return (
     <div className="App">
       <Cabecalho />
       <Recursos estoque={estoque} />
       <Acoes transacoes={transacoes} handleClick={handleClickAcao} />
-      <Rodape estoque={estoque} transacoes={transacoes} processos={processos} vendaAutomatica={vendaAutomatica} upgrades={upgrades} handleChange={handleChange} handleClick={handleClickUpgrade} />
+      <Rodape
+        estoque={estoque}
+        transacoes={transacoes}
+        processos={processos}
+        vendaAutomatica={vendaAutomatica}
+        upgrades={upgrades}
+        handleChange={handleChange}
+        handleClick={handleClickUpgrade}
+      />
     </div>
   );
 }

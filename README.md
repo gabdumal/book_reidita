@@ -4,21 +4,21 @@ Este projeto foi iniciado com [Create React App](https://github.com/facebook/cre
 
 ## Instalação
 
-### NVM
+### PNPM
 
 Abra o terminal.\
-Digite `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash`\
+Digite `curl -fsSL https://get.pnpm.io/install.sh | sh -`\
 Feche o terminal.
 
 Abra o terminal novamente.\
-Digite `nvm -v`\
-Verifique se a versão v0.39.5 foi instalada.
+Digite `pnpm -v`\
+Verifique se a versão mais recente foi instalada.
 
 ### NODE.JS
 
-Digite `nvm install --lts`\
+Digite `pnpm env use --global lts`\
 Digite `node -v`\
-Verifique se a versão v18.18.0 foi instalada.
+Verifique se a versão 18 foi instalada.
 
 ### Create React App
 
