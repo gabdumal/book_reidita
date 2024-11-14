@@ -1,36 +1,48 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
+title: Começando no React com um jogo Idle Clicker
+description: "Minicurso de React e Typescript: criando um jogo do gênero Idle Clicker."
+author: Gabriel Malosto
 template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: Vamos aprender a fazer um jogo para a Web usando React e Typescript!
   image:
     file: ../../assets/houston.webp
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Começar
+      link: introduction
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
-      variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid } from "@astrojs/starlight/components";
 
-## Next steps
+import Link from "/src/components/Link";
+
+import { authorGitHubPage, bookGitHubRepo } from "../../constants";
+
+## Autoria
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+  <Card title="Autor" icon="pencil">
+    {
+      <p>
+        <span className="font-bold">Gabriel Malosto</span> é o autor deste
+        livro. Foi um prazer escrevê-lo para você! Pode me encontrar pela minha
+        página no <Link href={authorGitHubPage} title="GitHub" />.
+      </p>
+    }
+  </Card>
+  <Card title="Repositório" icon="github">
+    {
+      <p>
+        Encontre o código fonte deste projeto no{" "}
+        <Link
+          href={`https://github.com/${import.meta.env.PUBLIC_GITHUB_USERNAME}/${
+            import.meta.env.PUBLIC_BASE
+          }`}
+          title="GitHub"
+        />
+        {"."}
+      </p>
+    }
+  </Card>
 </CardGrid>
