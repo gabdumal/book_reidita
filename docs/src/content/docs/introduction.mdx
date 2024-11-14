@@ -6,6 +6,9 @@ author: Gabriel Malosto
 import Figure from "/src/components/Figure.astro";
 
 import cookieClicker from "/src/assets/content/docs/introduction/cookie_clicker.png";
+import html from "/src/assets/content/docs/introduction/html.png";
+import css from "/src/assets/content/docs/introduction/css.png";
+import javascript from "/src/assets/content/docs/introduction/javascript.png";
 
 Este livro pretende ensinar a criar um jogo do gênero _Idle Clicker_ para a Web.
 Utilizaremos as seguintes tecnologias:
@@ -33,6 +36,128 @@ O desenvolvimento da história apresenta diversos minigames e mecânicas.
     {
       src: cookieClicker,
       alt: `Porção do website do jogo Cookie Clicker. A imagem mostra um botão com a imagem de um cookie e um contador de cookies. Acima do botão, está escrito "Confeitaria de gabdumal. 39 cookies. Por segundo: 0". O cursor do mouse está posicionado sobre o botão, ao redor do qual aparecem imagens de cookies.`,
+    },
+  ]}
+/>
+
+## HTML
+
+HTML significa _HyperText Markup Language_, ou _Linguagem de Marcação de Hipertexto_.
+Ela é responsável por estruturar o conteúdo de uma página, desde seus metadados até o texto e demais mídias que a compõem.
+
+Este é um exemplo de um documento HTML:
+
+```html
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meu Jogo</title>
+  </head>
+  <body>
+    <h1>Meu Jogo</h1>
+    <p>Olá, mundo!</p>
+  </body>
+</html>
+```
+
+O HTML é composto por _tags_ que indicam o início e o fim de elementos.
+No exemplo acima, a tag `<p>` indica que seu conteúdo é um texto comum.
+
+Podemos aninhar tags em outras, como a tag `<body>`, que contém as `<h1>` e `<p>`.
+Essa é responsável por definir todo o conteúdo visível do site.
+
+A tag `<head>`, por outro lado, contém informações sobre o documento, como o título da página e metadados.
+Nesse exemplo, especificamos a codificação de caracteres do documento com a tag `<meta charset="UTF-8" />`.
+
+Toda a página deve ficar dentro da tag `<html>`, que define o início e o fim do documento.
+Para identificar o seu tipo, usamos a tag especial `<!doctype html>`.
+
+<Figure
+  caption="Página construída com HTML"
+  images={[
+    {
+      src: html,
+      alt: "Janela do navegador exibindo a página Web resultante do código HTML apresentado acima.",
+    },
+  ]}
+/>
+
+## CSS
+
+CSS significa _Cascading Style Sheets_, ou _Folhas de Estilo em Cascata_.
+Essa linguagem é responsável por estilizar o conteúdo de uma página HTML.
+
+Fazemos isso associando regras de estilo a elementos HTML.
+Por exemplo, para mudar a cor do texto de um parágrafo, podemos usar a seguinte regra:
+
+```css
+p {
+  color: blue;
+}
+```
+
+Há diferentes formas de adicionar esse texto à página.
+Vamos fazer isso ao utilizar uma tag chamada `<style>` dentro da tag `<head>` do documento HTML:
+
+```html
+<head>
+  <!-- ... -->
+  <style>
+    p {
+      color: blue;
+    }
+  </style>
+</head>
+```
+
+<Figure
+  caption="Página construída com HTML e CSS"
+  images={[
+    {
+      src: css,
+      alt: "Janela do navegador exibindo a página Web resultante do código HTML com CSS apresentado acima.",
+    },
+  ]}
+/>
+
+## Javascript
+
+Javascript é uma linguagem de programação que permite adicionar interatividade a páginas Web.
+
+Podemos utilizá-la para adicionar comportamentos dinâmicos, como alterar o conteúdo de uma página ou responder a eventos do usuário.
+
+O código abaixo adiciona um evento de clique a um parágrafo, exibindo um alerta ao usuário:
+
+```javascript
+const paragraph = document.querySelector("p");
+
+paragraph.addEventListener("click", () => {
+  window.alert("Você clicou no parágrafo!");
+});
+```
+
+Para adicionar esse código a um documento HTML, podemos usar a tag `<script>` dentro da tag `<body>`.
+
+```html
+<body>
+  <!-- ... -->
+  <script>
+    const paragraph = document.querySelector("p");
+
+    paragraph.addEventListener("click", () => {
+      window.alert("Você clicou no parágrafo!");
+    });
+  </script>
+</body>
+```
+
+<Figure
+  caption="Página construída com HTML, CSS e Javascript"
+  images={[
+    {
+      src: javascript,
+      alt: "Janela do navegador exibindo o alerta gerado pelo código Javascript apresentado acima.",
     },
   ]}
 />
