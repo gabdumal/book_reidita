@@ -1,0 +1,99 @@
+---
+title: Propriedades
+author: Gabriel Malosto
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Figure from "/src/components/Figure.astro";
+
+import twoResources from "/src/assets/content/docs/course/properties/two_resources.png";
+
+Nós fizemos um componente que representa o recurso "Madeira".
+Mas e se quisermos adicionar mais recursos ao jogo?
+Poderíamos fazer isso criando um novo componente para cada recurso, mas isso não é prático.
+
+Vamos adaptar o componente `Resource` para que ele possa representar qualquer recurso.
+Faremos isso por meio de propriedades, ou, no domínio do React, **props**.
+
+## Passando props
+
+Os props são valores que passamos para um componente.
+Eles são recebidas pela função que define o componente e podem ser usados para personalizar o comportamento e a aparência deste.
+
+1. Abra o arquivo `Resource.tsx`.
+2. Logo antes da função que define o componente, adicione a seguinte interface:
+
+```tsx
+interface ResourceProps {
+  title: string;
+  icon: string;
+  quantity: number;
+}
+```
+
+<Aside type="note">
+  Uma **interface** é um recurso do TypeScript que permite definir a forma de um
+  objeto. Ela funciona de forma similar a uma *struct* em C.
+</Aside>
+
+3. Modifique a função que define o componente para que ela receba um argumento do tipo `ResourceProps`. Utilizamos a sintaxe de desestruturação para acessar as propriedades do objeto dentro das chaves.
+
+```tsx
+export default function Resource({ title, icon, quantity }: ResourceProps) {
+  // ...
+}
+```
+
+4. Substitua o conteúdo dentro dos elementos `<h1>`, `<span>` e `<p>` pelas variáveis `title`, `icon` e `quantity`, respectivamente. Cerque cada variável por chaves `{}` para que o JSX as interprete como expressões JavaScript.
+
+```tsx
+import styles from "./Resource.module.css";
+
+interface ResourceProps {
+  title: string;
+  icon: string;
+  quantity: number;
+}
+
+export default function Resource({ title, icon, quantity }: ResourceProps) {
+  return (
+    <div className={styles.box}>
+      <h1 className={styles.title}>{title}</h1>
+      <button className={styles.button}>
+        <span className={styles.icon}>{icon}</span>
+      </button>
+      <p className={styles.quantity}>{quantity}</p>
+    </div>
+  );
+}
+```
+
+Agora que o componente `Resource` aceita propriedades arbitrárias, precisamos atualizar o código que o utiliza para passar os valores corretos.
+
+5. Abra o arquivo `Resources.tsx`.
+6. Modifique a chamada do componente `Resource` para que ela passe as propriedades `title`, `icon` e `quantity`.
+
+```tsx
+<Resource title="Madeira" icon="🌳" quantity={0} />
+```
+
+O resultado da página deve ser exatamente o mesmo que tínhamos antes.
+Porém, agora temos um componente mais flexível que pode representar qualquer recurso do jogo.
+
+7. Adicione o recurso de "Ouro" ao jogo, fazendo mais uma chamada do componente `Resource`.
+
+```tsx
+<Resource title="Moeda" icon="🪙" quantity={0} />
+```
+
+O resultado final deve ser como o seguinte:
+
+<Figure
+  caption={`Dois recursos: "Madeira" e "Moeda".`}
+  images={[
+    {
+      src: twoResources,
+      alt: "Página do jogo, em que duas caixas de recursos são exibidas. A primeira caixa contém o ícone de uma árvore e o texto 'Madeira'. A segunda caixa contém o ícone de uma moeda e o texto 'Moeda'.",
+    },
+  ]}
+/>

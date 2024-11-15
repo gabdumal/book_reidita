@@ -48,6 +48,10 @@ export default defineConfig({
               label: "Componentes",
               slug: "course/components",
             },
+            {
+              label: "Propriedades",
+              slug: "course/properties",
+            },
           ],
           label: "Curso",
         },
