@@ -11,7 +11,8 @@ export default defineConfig({
     starlight({
       customCss: ["./src/tailwind.css"],
       defaultLocale: "root",
-      description: "Minicurso de React e Typescript: criando um jogo do gênero Idle Clicker.",
+      description:
+        "Minicurso de React e Typescript: criando um jogo do gênero Idle Clicker.",
       locales: {
         root: {
           label: "Português",
@@ -20,8 +21,18 @@ export default defineConfig({
       },
       sidebar: [
         {
+          items: [
+            { label: "Introdução", slug: "introduction" },
+            {
+              label: "Páginas na Web",
+              slug: "introduction/web",
+            },
+            {
+              label: "Tecnologias modernas",
+              slug: "introduction/modern",
+            },
+          ],
           label: "Introdução",
-          slug: "introduction",
         },
       ],
       social: {
