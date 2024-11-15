@@ -3,6 +3,11 @@ title: Instalação
 author: Gabriel Malosto
 ---
 
+import { Aside } from "@astrojs/starlight/components";
+import Figure from "/src/components/Figure.astro";
+
+import viteInitialPage from "/src/assets/content/docs/course/installation/vite_initial_page.png";
+
 Uma vez que usaremos **React** e **Typescript** para construir o website, precisamos instalar algumas ferramentas para facilitar o desenvolvimento.
 Ambas as tecnologias serão convertidas para **Javascript** e **HTML** simples, que podem ser interpretados pelos navegadores.
 
@@ -70,3 +75,38 @@ Então, para testar se a instalação foi bem-sucedida, execute o comando `node 
 $ node --version
 v20.18.0
 ```
+
+## Instalação
+
+Com as ferramentas instaladas, podemos criar um novo projeto **React** com **Typescript**.
+Para isso, utilizaremos o [**Vite**](https://vite.dev/guide/), um servidor de desenvolvimento rápido e moderno, que atua como um _bundler_ de módulos.
+
+<Aside type="tip">
+  Um **bundler** é uma ferramenta que combina múltiplos arquivos de código em um
+  só, otimizando o carregamento de páginas Web.
+</Aside>
+
+Para criar um novo projeto, execute os seguintes comandos no terminal:
+
+```bash
+# Cria um novo projeto React com Typescript
+pnpm create vite idle-clicker --template react-ts
+# Acessa o diretório do projeto
+cd idle-clicker
+# Instala as dependências do projeto
+pnpm install
+# Inicia o servidor de desenvolvimento
+pnpm run dev
+```
+
+Por padrão, o servidor de desenvolvimento do **Vite** roda no endereço local http://localhost:5173.
+
+<Figure
+  caption="Página inicial gerada pelo Vite"
+  images={[
+    {
+      src: viteInitialPage,
+      alt: "Página inicial do Vite, mostrando um botão de incremento e um contador de cliques.",
+    },
+  ]}
+/>
