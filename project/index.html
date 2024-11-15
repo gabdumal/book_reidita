@@ -2,22 +2,12 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <title>Meu Jogo</title>
-    <style>
-      p {
-        color: blue;
-      }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Idle Clicker</title>
   </head>
   <body>
-    <h1>Meu Jogo</h1>
-    <p>Olá, mundo!</p>
-    <script defer>
-      const paragraph = document.querySelector("p");
-  
-      paragraph.addEventListener("click", () => {
-        window.alert("Você clicou no parágrafo!");
-      });
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

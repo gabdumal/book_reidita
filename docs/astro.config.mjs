@@ -44,6 +44,10 @@ export default defineConfig({
               label: "Instalação",
               slug: "course/installation",
             },
+            {
+              label: "Componentes",
+              slug: "course/components",
+            },
           ],
           label: "Curso",
         },
