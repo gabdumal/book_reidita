@@ -25,3 +25,21 @@ body,
   width: 100%;
   margin: 0;
 }
+
+@keyframes color-transform {
+  100% {
+    background-color: lightskyblue;
+  }
+  75% {
+    background-color: plum;
+  }
+  50% {
+    background-color: lightcoral;
+  }
+  25% {
+    background-color: plum;
+  }
+  0% {
+    background-color: lightskyblue;
+  }
+}

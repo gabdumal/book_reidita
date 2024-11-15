@@ -1,0 +1,14 @@
+.header {
+  &:global {
+    animation: color-transform 30s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+.title {
+  margin: 0;
+  padding-inline: 2rem;
+  color: white;
+  font-size: 2rem;
+  font-weight: 900;
+  text-align: center;
+}

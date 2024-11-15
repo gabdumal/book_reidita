@@ -3,9 +3,12 @@ title: Componentes
 author: Gabriel Malosto
 ---
 
+import { Aside } from "@astrojs/starlight/components";
 import Figure from "/src/components/Figure.astro";
 
 import styledApp from "/src/assets/content/docs/course/components/styled_app.png";
+import importedHeader from "/src/assets/content/docs/course/components/imported_header.png";
+import styledHeader from "/src/assets/content/docs/course/components/styled_header.png";
 
 **Componentes** no React são blocos de construção reutilizáveis para interfaces de usuário. Eles permitem dividir a UI em partes independentes e reutilizáveis, e pensar em cada parte isoladamente.
 
@@ -17,7 +20,6 @@ Você pode ter percebido que o arquivo `App.tsx` que criamos anteriormente é um
 export default function App() {
   return (
     <article>
-      <h1>Idle Clicker</h1>
       <p>
         Vamos construir um jogo de clicker simples para entendermos os conceitos
         básicos de React.
@@ -83,11 +85,259 @@ export default function App() {
 ```
 
 <Figure
-  caption={`Componente "App.tsx" estilizado com CSS Modules`}
+  caption={`Componente "App.tsx" estilizado com CSS Modules.`}
   images={[
     {
       src: styledApp,
-      alt: `Página inicial do projeto, mostrando um título "Idle Clicker" e um parágrafo de introdução. O estilo descrito está aplicado aos elementos HTML.`,
+      alt: `Página inicial do projeto, mostrando um parágrafo de introdução. O estilo descrito está aplicado aos elementos HTML.`,
+    },
+  ]}
+/>
+
+## Organizando os componentes
+
+Como dissemos anteriormente, o arquivo `App.tsx` é um componente.
+Seu estilo é definido no arquivo `App.module.css`.
+Pensando nisso, concluímos que cada componente será composto por um arquivo `.tsx` e opcionalmente um arquivo `.module.css`.
+Conforme nosso projeto cresce, teremos dificuldade em organizar todos esses arquivos.
+
+Por isso, eu gosto de criar uma pasta para cada componente, guardando nela os arquivos de estrutura e de estilo.
+Então, todas essas pastas ficam dentro de uma pasta `src/components`.
+
+Para aderir a esse padrão, vamos fazer o seguinte:
+
+1. Crie uma pasta `src/components`.
+2. Dentro dela, crie uma pasta `App`.
+3. Mova o arquivo `App.tsx` para a pasta `src/components/App`.
+4. Mova o arquivo `App.module.css` para a pasta `src/components/App`.
+5. Edite o conteúdo do arquivo `main.tsx` para corrigir a importação do componente `App`.
+
+```tsx
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./components/App/App.tsx";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);
+```
+
+Este arquivo `main.tsx` é o ponto de entrada da nossa aplicação.
+É nele que importamos o CSS global.
+Eu prefiro não mexer muito aqui, e manter minha organização a partir do componente `App`.
+
+A estrutura de pastas e arquivos ficará assim:
+
+```
+src/
+├── components/
+│   └── App/
+│       ├── App.module.css
+│       └── App.tsx
+├── index.css
+├── main.tsx
+└── vite-env.d.ts
+```
+
+## Criando nosso primeiro componente
+
+Nosso jogo precisa de um título, e devemos exibir esse título em destaque para o jogador.
+Podemos fazer isso ao criar um cabeçalho para a página!
+Por ser um bloco semanticamente diferente do conteúdo principal, é uma boa prática criar um componente para ele também.
+
+1. Dentro da pasta `src/components`, crie uma pasta `Header`.
+2. Dentro dela, crie um arquivo `Header.tsx`.
+3. Crie um arquivo `Header.module.css` para estilizar o componente.
+
+A estrutura de pastas e arquivos ficará assim:
+
+```
+src/
+├── components/
+│   ├── App/
+│   │   ├── App.module.css
+│   │   └── App.tsx
+│   └── Header/
+│       ├── Header.module.css
+│       └── Header.tsx
+├── index.css
+├── main.tsx
+└── vite-env.d.ts
+```
+
+### Estrutura
+
+O componente `Header` deve ser um cabeçalho que exibe o título do jogo.
+Utilizaremos os elementos padrão de cabeçalho e de título do HTML para isso.
+
+<Aside type="note">
+  Todo componente no React é uma **função** que recebe **atributos** como
+  parâmetros e retorna um trecho de código em **HTML**.
+</Aside>
+
+Começamos escrevendo a definição da função `Header`.
+Também especificamos que esse componente poderá ser usado por outros arquivos, exportando-o.
+Para isso, usamos a palavra-chave `export`.
+Por sua vez, a palavra-chave `default` indica que esse componente é o principal do arquivo `Header.tsx` &mdash; nesse caso, é o único.
+
+```tsx
+export default function Header() {}
+```
+
+Agora, vamos escrever o retorno da função.
+Todo componente no React deve retornar um &mdash; e apenas um &mdash; elemento HTML.
+Neste caso, retornaremos um elemento de cabeçalho definido pela tag [`<header>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/header).
+
+```tsx
+export default function Header() {
+  return <header></header>;
+}
+```
+
+Este é um elemento semântico do HTML5, que representa um cabeçalho de uma seção ou de todo o documento.
+Não o confunda com o nome do nosso componente personalizado, `Header`.
+
+<Aside type="caution">
+  Perceba que letras maiúsculas e minúsculas fazem diferença no JSX. Sempre
+  mantenha o padrão no nome das pastas, dos arquivos, e das definições internas
+  num arquivo.
+</Aside>
+
+Por fim, criaremos um elemento de título de nível 1, representado pela tag [`<h1>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/h1).
+Esse elemento é o mais importante de todos os títulos de uma página, e é frequentemente usado para o título principal.
+
+```tsx
+export default function Header() {
+  return (
+    <header>
+      <h1>Idle Clicker</h1>
+    </header>
+  );
+}
+```
+
+<Aside type="caution">
+  Quando o elemento retornado pela função de um componente tem mais de uma
+  linha, é necessário envolvê-lo em parênteses. Se você estiver usando um
+  formatador como o [**Prettier**](https://prettier.io/), ele o fará
+  automaticamente.
+</Aside>
+
+Nós criamos o componente, mas nada mudou na página ainda.
+Isto é porque precisamos encaixar o componente `Header` em algum lugar da hierarquia de componentes da aplicação.
+
+Lembre-se: o arquivo main é o ponto de entrada. Ele é o responsável por renderizar o componente principal da aplicação, que é o `App`.
+Portanto, para colocar o `Header` na página, devemos adicioná-lo dentro do código retornado pelo componente `App`.
+Façamos isso em duas partes:
+
+1. Importe o componente `Header` no arquivo `App.tsx`.
+
+```tsx
+import Header from "../Header/Header";
+```
+
+2. Adicione o componente `Header` dentro do elemento [`<article>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/article) retornado pelo componente `App`.
+
+```tsx
+import Header from "../Header/Header";
+import styles from "./App.module.css";
+
+export default function App() {
+  return (
+    <article className={styles.container}>
+      <Header />
+      <p>
+        Vamos construir um jogo de clicker simples para entendermos os conceitos
+        básicos de React.
+      </p>
+    </article>
+  );
+}
+```
+
+<Figure
+  caption={`Componente "Header.tsx" importado e renderizado no componente "App.tsx".`}
+  images={[
+    {
+      src: importedHeader,
+      alt: `Página do projeto, mostrando um cabeçalho com o título "Idle Clicker", e abaixo um parágrafo de introdução.`,
+    },
+  ]}
+/>
+
+### Estilização
+
+Similarmente a como fizemos com o componente `App`, vamos estilizar o componente `Header` utilizando CSS Modules.
+Eu quero que o título do jogo seja exibido em maior destaque, então vamos criar uma classe CSS para isso.
+
+1. Abra o arquivo `index.css` e adicione a seguinte regra de estilo:
+
+```css
+@keyframes color-transform {
+  100% {
+    background-color: lightskyblue;
+  }
+  75% {
+    background-color: plum;
+  }
+  50% {
+    background-color: lightcoral;
+  }
+  25% {
+    background-color: plum;
+  }
+  0% {
+    background-color: lightskyblue;
+  }
+}
+```
+
+2. Abra o arquivo `Header.module.css` e adicione as seguintes regras de estilo:
+
+```css
+.header {
+  &:global {
+    animation: color-transform 30s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+.title {
+  margin: 0;
+  padding-inline: 2rem;
+  color: white;
+  font-size: 2rem;
+  font-weight: 900;
+  text-align: center;
+}
+```
+
+3. Importe o arquivo CSS no topo do arquivo `Header.tsx`.
+
+```tsx
+import styles from "./Header.module.css";
+```
+
+4. Adicione a classe `styles.header` ao elemento `<header>` e a classe `styles.title` ao elemento `<h1>`.
+
+```tsx
+return (
+  <header className={styles.header}>
+    <h1 className={styles.title}>Idle Clicker</h1>
+  </header>
+);
+```
+
+Este será o resultado final do componente `Header` na página.
+
+<Figure
+  caption={`Componente "Header.tsx" estilizado com CSS Modules.`}
+  images={[
+    {
+      src: styledHeader,
+      alt: `Página do projeto, mostrando um cabeçalho com o título "Idle Clicker" em destaque com texto branco e fundo vermelho coral. Abaixo há um parágrafo de introdução.`,
     },
   ]}
 />
