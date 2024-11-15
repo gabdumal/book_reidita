@@ -149,6 +149,60 @@ body,
   width: 100%;
   margin: 0;
 }
+
+@keyframes background-color-transform {
+  100% {
+    background-color: lightskyblue;
+  }
+  75% {
+    background-color: plum;
+  }
+  50% {
+    background-color: lightcoral;
+  }
+  25% {
+    background-color: plum;
+  }
+  0% {
+    background-color: lightskyblue;
+  }
+}
+
+@keyframes drop-shadow-color-transform {
+  100% {
+    filter: drop-shadow(0 0 0.5rem lightskyblue);
+  }
+  75% {
+    filter: drop-shadow(0 0 0.5rem plum);
+  }
+  50% {
+    filter: drop-shadow(0 0 0.5rem lightcoral);
+  }
+  25% {
+    filter: drop-shadow(0 0 0.5rem plum);
+  }
+  0% {
+    filter: drop-shadow(0 0 0.5rem lightskyblue);
+  }
+}
+
+@keyframes box-shadow-color-transform {
+  100% {
+    box-shadow: 0 0 0.5rem lightskyblue;
+  }
+  75% {
+    box-shadow: 0 0 0.5rem plum;
+  }
+  50% {
+    box-shadow: 0 0 0.5rem lightcoral;
+  }
+  25% {
+    box-shadow: 0 0 0.5rem plum;
+  }
+  0% {
+    box-shadow: 0 0 0.5rem lightskyblue;
+  }
+}
 ```
 
 3. Apague o arquivo `src/App.css`.

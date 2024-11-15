@@ -9,6 +9,7 @@ import Figure from "/src/components/Figure.astro";
 import styledApp from "/src/assets/content/docs/course/components/styled_app.png";
 import importedHeader from "/src/assets/content/docs/course/components/imported_header.png";
 import styledHeader from "/src/assets/content/docs/course/components/styled_header.png";
+import resources from "/src/assets/content/docs/course/components/resources.png";
 
 **Componentes** no React são blocos de construção reutilizáveis para interfaces de usuário. Eles permitem dividir a UI em partes independentes e reutilizáveis, e pensar em cada parte isoladamente.
 
@@ -49,6 +50,7 @@ Por exemplo, para o componente `App.tsx`, crie um arquivo `App.module.css`.
   justify-content: center;
   align-items: center;
   padding: 1rem 2rem;
+  gap: 2rem;
 }
 ```
 
@@ -85,7 +87,7 @@ export default function App() {
 ```
 
 <Figure
-  caption={`Componente "App.tsx" estilizado com CSS Modules.`}
+  caption={`Componente "App" estilizado com CSS Modules.`}
   images={[
     {
       src: styledApp,
@@ -142,7 +144,7 @@ src/
 └── vite-env.d.ts
 ```
 
-## Criando nosso primeiro componente
+## Título do jogo
 
 Nosso jogo precisa de um título, e devemos exibir esse título em destaque para o jogador.
 Podemos fazer isso ao criar um cabeçalho para a página!
@@ -259,7 +261,7 @@ export default function App() {
 ```
 
 <Figure
-  caption={`Componente "Header.tsx" importado e renderizado no componente "App.tsx".`}
+  caption={`Componente "Header" importado e renderizado no componente "App".`}
   images={[
     {
       src: importedHeader,
@@ -273,34 +275,13 @@ export default function App() {
 Similarmente a como fizemos com o componente `App`, vamos estilizar o componente `Header` utilizando CSS Modules.
 Eu quero que o título do jogo seja exibido em maior destaque, então vamos criar uma classe CSS para isso.
 
-1. Abra o arquivo `index.css` e adicione a seguinte regra de estilo:
-
-```css
-@keyframes color-transform {
-  100% {
-    background-color: lightskyblue;
-  }
-  75% {
-    background-color: plum;
-  }
-  50% {
-    background-color: lightcoral;
-  }
-  25% {
-    background-color: plum;
-  }
-  0% {
-    background-color: lightskyblue;
-  }
-}
-```
-
-2. Abra o arquivo `Header.module.css` e adicione as seguintes regras de estilo:
+1. Abra o arquivo `Header.module.css` e adicione as seguintes regras de estilo:
 
 ```css
 .header {
   &:global {
-    animation: color-transform 30s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: background-color-transform 30s cubic-bezier(0.4, 0, 0.6, 1)
+      infinite;
   }
 }
 
@@ -314,13 +295,13 @@ Eu quero que o título do jogo seja exibido em maior destaque, então vamos cria
 }
 ```
 
-3. Importe o arquivo CSS no topo do arquivo `Header.tsx`.
+2. Importe o arquivo CSS no topo do arquivo `Header.tsx`.
 
 ```tsx
 import styles from "./Header.module.css";
 ```
 
-4. Adicione a classe `styles.header` ao elemento `<header>` e a classe `styles.title` ao elemento `<h1>`.
+3. Adicione a classe `styles.header` ao elemento `<header>` e a classe `styles.title` ao elemento `<h1>`.
 
 ```tsx
 return (
@@ -333,11 +314,221 @@ return (
 Este será o resultado final do componente `Header` na página.
 
 <Figure
-  caption={`Componente "Header.tsx" estilizado com CSS Modules.`}
+  caption={`Componente "Header" estilizado com CSS Modules.`}
   images={[
     {
       src: styledHeader,
       alt: `Página do projeto, mostrando um cabeçalho com o título "Idle Clicker" em destaque com texto branco e fundo vermelho coral. Abaixo há um parágrafo de introdução.`,
+    },
+  ]}
+/>
+
+## Obtendo recursos
+
+Uma característica chave de jogos _Idle Clicker_ é um botão em que o jogador pode clicar para ganhar pontos.
+No nosso jogo, teremos mais de um botão, cada um para ganhar um tipo de recurso diferente.
+
+### Grupo de botões
+
+Podemos imaginar que esses botões serão agrupados de alguma forma.
+Felizmente, há um elemento padrão do HTML perfeito para essa função.
+É o elemento [`<section>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/section), que representa uma seção genérica de uma página.
+Assim como no caso do cabeçalho, faz sentido criar um componente personalizado para esse agrupamento.
+
+1. Dentro da pasta `src/components`, crie uma pasta `Resources`.
+2. Dentro dela, crie um arquivo `Resources.tsx`.
+3. Preencha-o com a estrutura básica do componente:
+
+```tsx
+import styles from "./Resources.module.css";
+
+export default function Resources() {
+  return <section className={styles.container}>Recursos</section>;
+}
+```
+
+4. Crie um arquivo `Resources.module.css` para estilizar o componente.
+5. Adicione a ele as seguintes regras de estilo:
+
+```css
+.container {
+  display: flex;
+  max-width: 100%;
+  overflow-x: scroll;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+}
+
+.group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+```
+
+5. Abra o arquivo `App.tsx` e remova o elemento `<p>`.
+6. Importe o componente `Resources` no arquivo `App.tsx`, e o adicione logo abaixo do componente `Header`.
+
+```tsx
+import Header from "../Header/Header";
+import Resources from "../Resources/Resources";
+import styles from "./App.module.css";
+
+export default function App() {
+  return (
+    <article className={styles.container}>
+      <Header />
+      <Resources />
+    </article>
+  );
+}
+```
+
+A estrutura de pastas e arquivos ficará assim:
+
+```
+src/
+├── components/
+│   ├── App/
+│   │   ├── App.module.css
+│   │   └── App.tsx
+│   ├── Header/
+│   │   ├── Header.module.css
+│   │   └── Header.tsx
+│   └── Resources/
+│       ├── Resources.module.css
+│       └── Resources.tsx
+├── index.css
+├── main.tsx
+└── vite-env.d.ts
+```
+
+### Botão
+
+Depois de criar o elemento que agrupa os botões, podemos de fato criar os recursos do jogo.
+Para isso, criaremos outro componente, chamado `Resource`.
+
+1. Dentro da pasta `src/components`, crie uma pasta `Resource`.
+2. Dentro dela, crie um arquivo `Resource.tsx` e o preencha com o seguinte código:
+
+```tsx
+import styles from "./Resource.module.css";
+
+export default function Resource() {
+  return (
+    <div className={styles.box}>
+      <h1 className={styles.title}>Madeira</h1>
+      <button className={styles.button}>
+        <span className={styles.icon}>🌳</span>
+      </button>
+      <p className={styles.quantity}>0</p>
+    </div>
+  );
+}
+```
+
+3. Crie um arquivo `Resource.module.css` para estilizar o componente e adicione a ele as seguintes regras de estilo:
+
+```css
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 8.5rem;
+  min-width: 8.5rem;
+  border-radius: 0.75rem;
+  background-color: white;
+  &:global {
+    animation: box-shadow-color-transform 30s cubic-bezier(0.4, 0, 0.6, 1)
+      infinite;
+  }
+}
+
+.title {
+  margin: 0;
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+
+.button {
+  margin: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.button:active {
+  transform: scale(0.9);
+  filter: brightness(0.9);
+}
+
+.button:active > .icon {
+  &:global {
+    animation: drop-shadow-color-transform 5s cubic-bezier(0.4, 0, 0.6, 1)
+      infinite;
+  }
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.quantity {
+  margin: 0;
+  font-weight: 900;
+}
+```
+
+4. Abra o arquivo `Resources.tsx` e remova o texto "Recursos".
+5. Crie um elemento `<div>` com a classe `styles.group` e adicione o componente `Resource` dentro dele.
+
+```tsx
+import Resource from "../Resource/Resource";
+import styles from "./Resources.module.css";
+
+export default function Resources() {
+  return (
+    <section className={styles.container}>
+      <div className={styles.group}>
+        <Resource />
+      </div>
+    </section>
+  );
+}
+```
+
+A estrutura de pastas e arquivos ficará assim:
+
+```
+src/
+├── components/
+│   ├── App/
+│   │   ├── App.module.css
+│   │   └── App.tsx
+│   ├── Header/
+│   │   ├── Header.module.css
+│   │   └── Header.tsx
+│   ├── Resource/
+│   │   ├── Resource.module.css
+│   │   └── Resource.tsx
+│   └── Resources/
+│       ├── Resources.module.css
+│       └── Resources.tsx
+├── index.css
+├── main.tsx
+└── vite-env.d.ts
+```
+
+O resultado final será um botão com o emoji de uma árvore em que o jogador pode clicar.
+
+<Figure
+  caption={`Componentes "Resources" e "Resource.tsx" estilizados.`}
+  images={[
+    {
+      src: resources,
+      alt: `Página do projeto, mostrando um botão com o ícone de uma árvore e o texto "Madeira" acima. Abaixo, um número zero indica a quantidade de madeira.`,
     },
   ]}
 />

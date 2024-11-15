@@ -17,7 +17,7 @@ const { images, caption, horizontal } = Astro.props;
 
 <figure class={`flex items-center flex-col gap-1`}>
   <div
-    class={`flex items-center justify-center gap-1 ${horizontal ? "flex-row" : "flex-col"}`}
+    class={`flex items-center justify-center gap-1 drop-shadow-md ${horizontal ? "flex-row" : "flex-col"}`}
   >
     {
       images.map(image => (

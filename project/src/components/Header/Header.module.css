@@ -1,6 +1,7 @@
 .header {
   &:global {
-    animation: color-transform 30s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: background-color-transform 30s cubic-bezier(0.4, 0, 0.6, 1)
+      infinite;
   }
 }
 
