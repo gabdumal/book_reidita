@@ -1,0 +1,44 @@
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1rem;
+  max-width: 7.5rem;
+  border-radius: 0.75rem;
+  background-color: white;
+  &:global {
+    animation: box-shadow-color-transform 30s cubic-bezier(0.4, 0, 0.6, 1)
+      infinite;
+  }
+}
+
+.name {
+  margin: 0;
+  font-weight: 900;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.button {
+  margin: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.button:active {
+  transform: scale(0.9);
+  filter: brightness(0.9);
+}
+
+.button:active > .icon {
+  &:global {
+    animation: drop-shadow-color-transform 5s cubic-bezier(0.4, 0, 0.6, 1)
+      infinite;
+  }
+}
+
+.icon {
+  font-size: 3rem;
+}

@@ -14,28 +14,10 @@
   }
 }
 
-.title {
+.name {
   margin: 0;
   font-weight: 900;
   font-size: 1.25rem;
-}
-
-.button {
-  margin: 0;
-  background-color: transparent;
-  border: none;
-}
-
-.button:active {
-  transform: scale(0.9);
-  filter: brightness(0.9);
-}
-
-.button:active > .icon {
-  &:global {
-    animation: drop-shadow-color-transform 5s cubic-bezier(0.4, 0, 0.6, 1)
-      infinite;
-  }
 }
 
 .icon {

@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  max-width: 100%;
+  overflow-x: scroll;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+}
+
+.group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}

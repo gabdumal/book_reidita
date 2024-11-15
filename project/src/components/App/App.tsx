@@ -1,12 +1,14 @@
+import ActionsContainer from "../ActionsContainer/ActionsContainer";
 import Header from "../Header/Header";
-import Resources from "../Resources/Resources";
+import ResourcesContainer from "../ResourcesContainer/ResourcesContainer";
 import styles from "./App.module.css";
 
 export default function App() {
   return (
     <article className={styles.container}>
       <Header />
-      <Resources />
+      <ResourcesContainer />
+      <ActionsContainer />
     </article>
   );
 }
