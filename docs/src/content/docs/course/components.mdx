@@ -3,3 +3,91 @@ title: Componentes
 author: Gabriel Malosto
 ---
 
+import Figure from "/src/components/Figure.astro";
+
+import styledApp from "/src/assets/content/docs/course/components/styled_app.png";
+
+**Componentes** no React são blocos de construção reutilizáveis para interfaces de usuário. Eles permitem dividir a UI em partes independentes e reutilizáveis, e pensar em cada parte isoladamente.
+
+Escrevemos seu código na linguagem de marcação **JSX** (JavaScript XML), que é uma extensão de sintaxe do JavaScript. JSX permite escrever HTML dentro do JavaScript e é transformado em chamadas de função regulares do JavaScript.
+
+Você pode ter percebido que o arquivo `App.tsx` que criamos anteriormente é um componente!
+
+```tsx
+export default function App() {
+  return (
+    <article>
+      <h1>Idle Clicker</h1>
+      <p>
+        Vamos construir um jogo de clicker simples para entendermos os conceitos
+        básicos de React.
+      </p>
+    </article>
+  );
+}
+```
+
+Sua estrutura é a de uma função do JavaScript.
+O que ela retorna é um trecho de código HTML, que é renderizado na tela.
+Por baixo dos panos, o React chamará essa função quando necessário.
+
+## Estilizando componentes
+
+Para estilizar componentes, podemos usar CSS normalmente.
+Eu recomendo utilizar um padrão de estilização chamado **CSS Modules**.
+Ele permite que você escreva CSS localmente para cada componente, evitando conflitos de estilos.
+
+Para utilizar CSS Modules, basta criar um arquivo CSS com o mesmo nome do seu componente e adicionar o sufixo `.module.css`.
+Por exemplo, para o componente `App.tsx`, crie um arquivo `App.module.css`.
+
+```css
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+```
+
+O CSS é convertido em um objeto JavaScript, onde cada classe é uma propriedade desse objeto.
+Para utilizar essas classes no seu componente, importe o arquivo CSS no topo do arquivo `App.tsx`, dando o nome `styles` para o objeto de estilos.
+
+```tsx
+import styles from "./App.module.css";
+```
+
+Então, adicione o atributo `className` ao elemento `<article>`.
+Passe para ele a classe `styles.container`.
+
+```tsx
+<article className={styles.container}>
+```
+
+O código completo do componente `App.tsx` ficará assim:
+
+```tsx
+import styles from "./App.module.css";
+
+export default function App() {
+  return (
+    <article className={styles.container}>
+      <h1>Idle Clicker</h1>
+      <p>
+        Vamos construir um jogo de clicker simples para entendermos os conceitos
+        básicos de React.
+      </p>
+    </article>
+  );
+}
+```
+
+<Figure
+  caption={`Componente "App.tsx" estilizado com CSS Modules`}
+  images={[
+    {
+      src: styledApp,
+      alt: `Página inicial do projeto, mostrando um título "Idle Clicker" e um parágrafo de introdução. O estilo descrito está aplicado aos elementos HTML.`,
+    },
+  ]}
+/>
