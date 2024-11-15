@@ -3,8 +3,9 @@ export default function App() {
     <article>
       <h1>Idle Clicker</h1>
       <p>
-        Vamos construir um jogo de clicker simples para entendermos os conceitos básicos de React.
+        Vamos construir um jogo de clicker simples para entendermos os conceitos
+        básicos de React.
       </p>
     </article>
-  )
+  );
 }

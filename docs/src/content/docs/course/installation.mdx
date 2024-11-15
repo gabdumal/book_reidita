@@ -95,6 +95,7 @@ pnpm create vite idle-clicker --template react-ts
 # Acessa o diretório do projeto
 cd idle-clicker
 # Instala as dependências do projeto
+pnpm i -D prettier-plugin-organize-imports
 pnpm install
 # Inicia o servidor de desenvolvimento
 pnpm run dev
@@ -117,10 +118,41 @@ Por padrão, o servidor de desenvolvimento do **Vite** roda no endereço local h
 Para nossa aplicação, não precisamos de todo o código gerado pelo **Vite**.
 Vamos então realizar os seguintes passos:
 
-1. Remover a pasta `src/assets`.
-2. Apagar todo o conteúdo do arquivo `src/index.css`.
-3. Excluir o arquivo `src/App.css`.
-4. Apagar todo o conteúdo do arquivo `src/App.tsx` e adicionar o seguinte código:
+1. Remova a pasta `src/assets`.
+2. Apague todo o conteúdo do arquivo `src/index.css` e adicione o seguinte código:
+
+```css
+* {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+}
+
+html {
+  height: 100dvh;
+}
+
+body,
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+```
+
+3. Apague o arquivo `src/App.css`.
+4. Apague todo o conteúdo do arquivo `src/App.tsx` e adicione o seguinte código:
 
 ```tsx
 export default function App() {
@@ -136,7 +168,7 @@ export default function App() {
 }
 ```
 
-5. Apagar todo o conteúdo do arquivo `index.html` e adicionar o seguinte código:
+5. Apague todo o conteúdo do arquivo `index.html` e adicione o seguinte código:
 
 ```html
 <!doctype html>
@@ -154,6 +186,20 @@ export default function App() {
 </html>
 ```
 
+6. Crie um arquivo `.prettierrc` na raiz do projeto com o seguinte conteúdo:
+
+```json
+{
+  "arrowParens": "avoid",
+  "plugins": ["prettier-plugin-organize-imports"],
+  "semi": true,
+  "singleAttributePerLine": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false
+}
+```
+
 A estrutura de pastas e arquivos do projeto deve ficar assim:
 
 ```
@@ -168,6 +214,7 @@ idle-clicker/
 │   ├── main.tsx
 │   └── vite-env.d.ts
 ├── .gitignore
+├── .prettierrc
 ├── eslint.config.js
 ├── index.html
 ├── package.json
@@ -178,6 +225,8 @@ idle-clicker/
 ├── tsconfig.node.json
 └── vite.config.ts
 ```
+
+Após as alterações, a página deve ficar da seguinte forma:
 
 <Figure
   caption="Projeto limpo após a preparação"
