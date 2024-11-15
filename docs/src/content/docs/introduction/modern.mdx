@@ -44,3 +44,37 @@ const pessoa: Pessoa = { nome: "João", idade: 30 };
 const descricao = descreverPessoa(pessoa);
 console.log(descricao); // Saída: Nome: João, Idade: 30
 ```
+
+## React
+
+O **React** é uma biblioteca de desenvolvimento de interfaces para a Web.
+Ele foi criado pelo Facebook e é utilizado em diversos websites e aplicações Web.
+
+O React utiliza um conceito chamado de **componentização**, em que a interface é dividida em pequenos componentes reutilizáveis.
+Cada componente é responsável por uma parte da interface e pode ser composto por outros componentes.
+
+Cada componente tem seu próprio conjunto de tipos, variáveis e funções, o que facilita a organização do código, o que define as **propriedades** e o **estado**.
+Se há uma mudança numa das variáveis, por exemplo, isso configura uma mudança de estado.
+
+Algumas vantagens de utilizar React são:
+
+- **Reatividade**: o React atualiza a interface automaticamente quando o estado de um componente muda.
+- **Reutilização de código**: componentes podem ser reutilizados em diferentes partes da aplicação.
+- **Facilidade de manutenção**: a organização do código em componentes facilita a manutenção e a adição de novas funcionalidades.
+
+Este é um exemplo de código React que define um componente `Contador` que incrementa o valor mostrado a cada clique:
+
+```jsx
+import { useState } from "react";
+
+function Contador() {
+  const [valor, setValor] = useState(0);
+
+  return (
+    <div>
+      <p>Valor: {valor}</p>
+      <button onClick={() => setValor(valor + 1)}>Incrementar</button>
+    </div>
+  );
+}
+```
