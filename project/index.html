@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meu Jogo</title>
+    <style>
+      p {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Meu Jogo</h1>
+    <p>Olá, mundo!</p>
+    <script defer>
+      const paragraph = document.querySelector("p");
+  
+      paragraph.addEventListener("click", () => {
+        window.alert("Você clicou no parágrafo!");
+      });
+    </script>
+  </body>
+</html>

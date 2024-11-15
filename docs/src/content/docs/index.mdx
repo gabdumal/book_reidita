@@ -1,0 +1,48 @@
+---
+title: Começando no React com um jogo Idle Clicker
+description: "Minicurso de React e Typescript: criando um jogo do gênero Idle Clicker."
+author: Gabriel Malosto
+template: splash
+hero:
+  tagline: Vamos aprender a fazer um jogo para a Web usando React e Typescript!
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: Começar
+      link: introduction
+      icon: right-arrow
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+import Link from "/src/components/Link";
+
+import { authorGitHubPage, bookGitHubRepo } from "../../constants";
+
+## Autoria
+
+<CardGrid stagger>
+  <Card title="Autor" icon="pencil">
+    {
+      <p>
+        <span className="font-bold">Gabriel Malosto</span> é o autor deste
+        livro. Foi um prazer escrevê-lo para você! Pode me encontrar pela minha
+        página no <Link href={authorGitHubPage} title="GitHub" />.
+      </p>
+    }
+  </Card>
+  <Card title="Repositório" icon="github">
+    {
+      <p>
+        Encontre o código fonte deste projeto no{" "}
+        <Link
+          href={`https://github.com/${import.meta.env.PUBLIC_GITHUB_USERNAME}/${
+            import.meta.env.PUBLIC_BASE
+          }`}
+          title="GitHub"
+        />
+        {"."}
+      </p>
+    }
+  </Card>
+</CardGrid>

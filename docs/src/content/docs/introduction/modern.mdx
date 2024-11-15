@@ -1,0 +1,46 @@
+---
+title: Tecnologias modernas
+author: Gabriel Malosto
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Figure from "/src/components/Figure.astro";
+
+Diversas ferramentas foram construídas para facilitar o desenvolvimento de software para a Web com diferentes propósitos.
+Um uso comum é a criação de websites mais complexos, compostos por muitas páginas e que exigem maior interatividade, responsividade e acessibilidade.
+
+## Typescript
+
+O **Typescript** é um superset do Javascript que adiciona tipagem estática ao código.
+Isso significa que é possível definir o tipo de variáveis, parâmetros de funções e retornos de funções, entre outros.
+
+<Aside type="tip">
+  Um **superset** de uma linguagem de programação se trata de uma linguagem que
+  estende as funcionalidades da primeira, adicionando novos recursos e sintaxes.
+  Em geral, um superset é compatível com a linguagem original, e código escrito
+  nele pode ser convertido para aquela.
+</Aside>
+
+Algumas vantagens de utilizar Typescript são:
+
+- **Identificação de erros**: o compilador do Typescript aponta erros de tipagem no código, o que pode evitar bugs.
+- **Documentação**: a tipagem do código facilita a compreensão do que cada parte do código faz.
+- **Intellisense**: editores de código como o Visual Studio Code podem fornecer sugestões de código com base nos tipos definidos.
+
+Este é um exemplo de código Typescript que define um tipo de dado `Pessoa`, o preenche e o utiliza em uma função:
+
+```typescript
+interface Pessoa {
+  nome: string;
+  idade: number;
+}
+
+function descreverPessoa(pessoa: Pessoa): string {
+  return `Nome: ${pessoa.nome}, Idade: ${pessoa.idade}`;
+}
+
+// Exemplo de uso
+const pessoa: Pessoa = { nome: "João", idade: 30 };
+const descricao = descreverPessoa(pessoa);
+console.log(descricao); // Saída: Nome: João, Idade: 30
+```
