@@ -34,6 +34,19 @@ export default defineConfig({
           ],
           label: "Introdução",
         },
+        {
+          items: [
+            {
+              label: "Objetivo",
+              slug: "course",
+            },
+            {
+              label: "Instalação",
+              slug: "course/installation",
+            },
+          ],
+          label: "Curso",
+        },
       ],
       social: {
         github: "https://github.com/gabdumal/book_reidita",

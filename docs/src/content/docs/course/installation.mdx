@@ -1,0 +1,72 @@
+---
+title: Instalação
+author: Gabriel Malosto
+---
+
+Uma vez que usaremos **React** e **Typescript** para construir o website, precisamos instalar algumas ferramentas para facilitar o desenvolvimento.
+Ambas as tecnologias serão convertidas para **Javascript** e **HTML** simples, que podem ser interpretados pelos navegadores.
+
+## Pré-requisitos
+
+Antes de começar, é necessário instalar algumas ferramentas no seu computador.
+
+### Editor de texto
+
+Podemos utilizar qualquer editor de texto para escrever o código da aplicação.
+Neste livro, recomendamos o uso do [**Visual Studio Code**](https://code.visualstudio.com/), que é um editor de código gratuito e de código aberto desenvolvido pela Microsoft.
+
+O Visual Studio Code possui diversas extensões que facilitam o desenvolvimento.
+No nosso caso, recomendamos a instalação das seguintes:
+
+- [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
+- [Pretty TypeScript Errors](https://marketplace.visualstudio.com/items?itemName=yoavbls.pretty-ts-errors)
+- [Todo Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)
+- [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
+- [Brazilian Portuguese - Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker-portuguese-brazilian)
+
+### Gerenciador de pacotes
+
+Precisamos de um software que gerencie a instalação das dependências necessárias para o projeto.
+Utilizaremos o [**pnpm**](https://pnpm.io/installation), um gerenciador de pacotes que instala as dependências de forma mais rápida que a alternativa mais conhecida, o **npm**.
+
+Para instalar o **pnpm**, deve-se executar o comando apropriado para o seu sistema operacional, conforme descrito no site oficial.
+
+Para sistemas **Unix-like** (Linux, macOS e WSL), execute o seguinte comando no terminal:
+
+```bash
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+```
+
+Já para sistemas **Windows**, execute o seguinte comando no PowerShell:
+
+```powershell
+Invoke-WebRequest https://get.pnpm.io/install.ps1 -UseBasicParsing | Invoke-Expression
+```
+
+Para testar se a instalação foi bem-sucedida, execute o comando `pnpm --version` no terminal.
+
+```bash
+$ pnpm --version
+9.12.3
+```
+
+### Node.js
+
+O **Node.js** é um ambiente de execução de código Javascript fora do navegador.
+Ele é necessário para rodar o **React** e outras ferramentas que utilizaremos no desenvolvimento.
+
+Podemos instalá-lo por meio do **pnpm** com o seguinte comando:
+
+```bash
+pnpm env use --global lts
+```
+
+Então, para testar se a instalação foi bem-sucedida, execute o comando `node --version` no terminal.
+
+```bash
+$ node --version
+v20.18.0
+```
