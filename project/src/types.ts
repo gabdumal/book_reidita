@@ -25,4 +25,6 @@ export interface Action {
 export interface Actions {
   chopWood: Action;
   sellWood: Action;
+  buildHouse: Action;
+  hireWorker: Action;
 }

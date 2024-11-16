@@ -28,16 +28,43 @@ export default function ActionsContainer({
     ],
   };
 
+  const buildHouse: Action = {
+    name: "Construir Casa",
+    icon: "🛠️",
+    trades: [
+      { resource: resources.wood, quantity: -5 },
+      { resource: resources.coin, quantity: -5 },
+      { resource: resources.house, quantity: +1 },
+    ],
+  };
+
+  const hireWorker: Action = {
+    name: "Contratar Trabalhador",
+    icon: "🧾",
+    trades: [
+      { resource: resources.coin, quantity: -10 },
+      { resource: resources.house, quantity: -1 },
+      { resource: resources.worker, quantity: +1 },
+    ],
+  };
+
   const actions: Actions = {
     chopWood,
     sellWood,
+    buildHouse,
+    hireWorker,
   };
 
   return (
     <section className={styles.container}>
       <div className={styles.group}>
-        <ActionButton action={actions.chopWood} setResources={setResources} />
-        <ActionButton action={actions.sellWood} setResources={setResources} />
+        {Object.values(actions).map(action => (
+          <ActionButton
+            key={action.name}
+            action={action}
+            setResources={setResources}
+          />
+        ))}
       </div>
     </section>
   );

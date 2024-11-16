@@ -5,8 +5,8 @@
   align-items: center;
   gap: 0.25rem;
   padding: 1rem;
-  min-width: 6.5rem;
-  max-width: 6.5rem;
+  min-width: 8rem;
+  max-width: 8rem;
   border-radius: 0.75rem;
   background-color: white;
   &:global {
@@ -55,5 +55,4 @@
 
 .trades > li {
   list-style: none;
-  text-align: end;
 }
