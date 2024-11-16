@@ -52,6 +52,10 @@ export default defineConfig({
               label: "Propriedades",
               slug: "course/properties",
             },
+            {
+              label: "Estado",
+              slug: "course/state",
+            },
           ],
           label: "Curso",
         },

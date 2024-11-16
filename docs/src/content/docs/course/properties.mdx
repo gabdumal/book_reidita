@@ -25,6 +25,8 @@ Eles são recebidas pela função que define o componente e podem ser usados par
 2. Logo antes da função que define o componente, adicione a seguinte interface:
 
 ```tsx
+/* ResourceDisplay.tsx */
+
 interface ResourceDisplayProps {
   name: string;
   icon: string;
@@ -40,6 +42,8 @@ interface ResourceDisplayProps {
 3. Modifique a função que define o componente para que ela receba um argumento do tipo `ResourceDisplayProps`. Utilizamos a sintaxe de desestruturação para acessar as propriedades do objeto dentro das chaves.
 
 ```tsx
+/* ResourceDisplay.tsx */
+
 export default function ResourceDisplay({
   name,
   icon,
@@ -52,6 +56,8 @@ export default function ResourceDisplay({
 4. Substitua o conteúdo dentro dos elementos `<h1>`, `<span>` e `<p>` pelas variáveis `name`, `icon` e `amount`, respectivamente. Cerque cada variável por chaves `{}` para que o JSX as interprete como expressões JavaScript.
 
 ```tsx
+/* ResourceDisplay.tsx */
+
 import styles from "./ResourceDisplay.module.css";
 
 interface ResourceDisplayProps {
@@ -81,6 +87,8 @@ Agora que o componente `ResourceDisplay` aceita propriedades arbitrárias, preci
 6. Modifique a chamada do componente `ResourceDisplay` para que ela passe as propriedades `name`, `icon` e `amount`.
 
 ```tsx
+/* ResourcesContainer.tsx */
+
 <ResourceDisplay name="Madeira" icon="🌳" amount={0} />
 ```
 
@@ -90,6 +98,8 @@ Porém, agora temos um componente mais flexível que pode representar qualquer r
 7. Adicione o recurso de "Ouro" ao jogo, fazendo mais uma chamada do componente `ResourceDisplay`.
 
 ```tsx
+/* ResourcesContainer.tsx */
+
 <ResourceDisplay name="Moeda" icon="🪙" amount={0} />
 ```
 
@@ -114,6 +124,8 @@ Vamos adicionar botões que permitam ao jogador coletar recursos.
 2. Adicione o seguinte código ao arquivo `ActionButton.tsx`:
 
 ```tsx
+/* ActionButton.tsx */
+
 import styles from "./ActionButton.module.css";
 
 interface ActionButtonProps {
@@ -133,9 +145,11 @@ export default function ActionButton({ name, icon }: ActionButtonProps) {
 }
 ```
 
-3. Adicione o seguinte código ao arquivo `ActionButtons.module.css`:
+3. Adicione o seguinte código ao arquivo `ActionButton.module.css`:
 
 ```css
+/* ActionButton.module.css */
+
 .box {
   display: flex;
   flex-direction: column;
@@ -143,7 +157,8 @@ export default function ActionButton({ name, icon }: ActionButtonProps) {
   align-items: center;
   gap: 0.25rem;
   padding: 1rem;
-  max-width: 7.5rem;
+  min-width: 6.5rem;
+  max-width: 6.5rem;
   border-radius: 0.75rem;
   background-color: white;
   &:global {
@@ -186,6 +201,8 @@ export default function ActionButton({ name, icon }: ActionButtonProps) {
 5. Adicione o seguinte código ao arquivo `ActionsContainer.tsx`:
 
 ```tsx
+/* ActionsContainer.tsx */
+
 import ActionButton from "../ActionButton/ActionButton";
 import styles from "./ActionsContainer.module.css";
 
@@ -203,6 +220,8 @@ export default function ActionsContainer() {
 6. Adicione o seguinte código ao arquivo `ActionsContainer.module.css`:
 
 ```css
+/* ActionsContainer.module.css */
+
 .container {
   display: flex;
   max-width: 100%;
@@ -214,7 +233,7 @@ export default function ActionsContainer() {
 .group {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   gap: 3rem;
 }
 ```
@@ -222,6 +241,8 @@ export default function ActionsContainer() {
 7. Adicione o componente `ActionsContainer` ao componente principal `App`.
 
 ```tsx
+/* App.tsx */
+
 import ActionsContainer from "../ActionsContainer/ActionsContainer";
 import Header from "../Header/Header";
 import ResourcesContainer from "../ResourcesContainer/ResourcesContainer";

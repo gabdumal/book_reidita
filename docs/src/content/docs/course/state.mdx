@@ -1,0 +1,333 @@
+---
+title: Estado
+author: Gabriel Malosto
+---
+
+import Figure from "/src/components/Figure.astro";
+
+import actions from "/src/assets/content/docs/course/state/actions.png";
+
+Agora que temos os botões, precisamos implementar suas ações.
+A lógica de coletar madeira é simples: ao clicar no botão, a quantidade de madeira deve aumentar.
+Concluímos que deve haver uma variável para armazenar a quantidade de madeira.
+
+A implementação trivial seria criar uma variável global para armazenar a quantidade de madeira.
+No entanto, isso não é uma boa prática, pois variáveis globais podem causar problemas de manutenção e escalabilidade.
+
+Além disso, podemos melhorar essa ideia ao não somente armazenar a quantidade, mas também representar cada recurso como um objeto.
+
+## Tipos
+
+Quando trabalhamos com objetos no TypeScript, é uma boa prática antes definir uma interface que represente a forma do objeto.
+Uma vez que esses tipos serão usados por todo o projeto, é melhor defini-los em um arquivo separado.
+
+### Recurso
+
+1. Crie um arquivo chamado `types.ts` na pasta `src`.
+2. Adicione as seguintes interfaces ao arquivo:
+
+```tsx
+/* types.ts */
+
+export interface Resource {
+  name: string;
+  icon: string;
+}
+
+export interface Resources {
+  wood: Resource;
+  coin: Resource;
+}
+```
+
+3. Edite o componente `ResourceDisplay` para que ele receba um objeto do tipo `Resource` e a quantidade dele no estoque. Lembre-se de importar a interface `Resource` no início do arquivo.
+
+```tsx
+/* ResourceDisplay.tsx */
+
+interface ResourceDisplayProps {
+  resource: Resource;
+  amount: number;
+}
+```
+
+4. Atualize os props recebidos pela função que define o componente. Também atualize o conteúdo dos elementos `<h1>` e `<span>` para exibir o nome e o ícone do recurso, respectivamente.
+
+```tsx
+/* ResourceDisplay.tsx */
+
+export default function ResourceDisplay({
+  resource,
+  amount,
+}: ResourceDisplayProps) {
+  return (
+    <div className={styles.box}>
+      <h1 className={styles.name}>{resource.name}</h1>
+      <span className={styles.icon}>{resource.icon}</span>
+      <p className={styles.amount}>{amount}</p>
+    </div>
+  );
+}
+```
+
+5. Dentro da **função** que define o componente `ResourcesContainer`, crie um objeto do tipo `Resource` para representar a madeira e outro para representar as moedas.
+
+```tsx
+/* ResourcesContainer.tsx */
+
+export default function ResourcesContainer() {
+  const wood: Resource = {
+    name: "Madeira",
+    icon: "🌳",
+  };
+
+  const coin: Resource = {
+    name: "Moeda",
+    icon: "🪙",
+  };
+
+  // ...
+}
+```
+
+6. Logo abaixo, crie um objeto do tipo `Resources` que inclua a madeira e as moedas.
+
+```tsx
+/* ResourcesContainer.tsx */
+
+const resources: Resources = {
+  wood,
+  coin,
+};
+```
+
+7. Atualize as chamadas do componente `ResourceDisplay` para que elas passem o recurso e a quantidade.
+
+```tsx
+/* ResourcesContainer.tsx */
+
+return (
+  <section className={styles.container}>
+    <div className={styles.group}>
+      <ResourceDisplay resource={resources.wood} amount={0} />
+      <ResourceDisplay resource={resources.coin} amount={0} />
+    </div>
+  </section>
+);
+```
+
+A página deve continuar exibindo os recursos da mesma forma que antes.
+Apenas mudamos a forma como os recursos são representados no código.
+
+### Ação
+
+Vamos atualizar a representação das ações da mesma forma que fizemos com os recursos.
+Uma ação é um objeto que contém um nome e relações entre recursos.
+Por exemplo, uma ação de vender madeira remove uma certa quantidade de madeira do estoque e adiciona uma certa quantidade de moedas.
+Por isso, vamos criar dois tipos: troca e ação.
+
+1. Adicione as seguintes interfaces ao arquivo `types.ts`:
+
+```tsx
+/* types.ts */
+
+export interface Trade {
+  resource: Resource;
+  quantity: number;
+}
+
+export interface Action {
+  name: string;
+  icon: string;
+  trades: Trade[];
+}
+
+export interface Actions {
+  chopWood: Action;
+  sellWood: Action;
+}
+```
+
+2. Edite o componente `ActionButton` para que ele receba um objeto do tipo `Action`.
+
+```tsx
+/* ActionButton.tsx */
+
+interface ActionButtonProps {
+  action: Action;
+}
+```
+
+3. Atualize os props recebidos pela função que define o componente. Também atualize o conteúdo dos elementos `<p>` e `<span>` para exibir o nome e o ícone da ação, respectivamente.
+
+```tsx
+/* ActionButton.tsx */
+
+export default function ActionButton({ action }: ActionButtonProps) {
+  return (
+    <div className={styles.box}>
+      <p className={styles.name}>{action.name}</p>
+      <button className={styles.button}>
+        <span className={styles.icon}>{action.icon}</span>
+      </button>
+    </div>
+  );
+}
+```
+
+4. Dentro da **função** que define o componente `ActionsContainer`, crie um objeto do tipo `Action` para representar as ações de cortar madeira e vender madeira. Também crie um objeto do tipo `Actions` que inclua essas ações.
+
+```tsx
+/* ActionsContainer.tsx */
+
+export default function ActionsContainer() {
+  const chopWood: Action = {
+    name: "Cortar Madeira",
+    icon: "🪓",
+    trades: [],
+  };
+
+  const sellWood: Action = {
+    name: "Vender Madeira",
+    icon: "💰",
+    trades: [],
+  };
+
+  const actions: Actions = {
+    chopWood,
+    sellWood,
+  };
+
+  // ...
+}
+```
+
+5. Atualize as chamadas do componente `ActionButton` para que elas passem as ações.
+
+```tsx
+/* ActionsContainer.tsx */
+
+return (
+  <section className={styles.container}>
+    <div className={styles.group}>
+      <ActionButton action={actions.chopWood} />
+      <ActionButton action={actions.sellWood} />
+    </div>
+  </section>
+);
+```
+
+O resultado final deve ser como o seguinte:
+
+<Figure
+  caption={`Recursos "Madeira" e "Moeda", e botões de ação para cortar madeira e vender madeira.`}
+  images={[
+    {
+      src: actions,
+      alt: `Página do projeto mostrando os recursos "Madeira" e "Moeda", e botões de ação para cortar e vender madeira, cada um com seu nome e ícone.`,
+    },
+  ]}
+/>
+
+## Elevação de estado
+
+Você pode ter percebido que não preenchemos o vetor de trocas das ações.
+Isso ocorre porque, para fazê-lo, é necessário receber a lista de todos os recursos disponíveis.
+Entretanto, os recursos são definidos no componente `ResourcesContainer`, e as ações são definidas no componente `ActionsContainer`, que são irmãos na hierarquia de componentes.
+Em situações como essa, devemos **elevar o estado** para o componente pai em comum.
+
+1. Remova a definição do objeto `resources` do componente `ResourcesContainer` e o mova para o componente `App`.
+
+```tsx
+/* App.tsx */
+
+export default function App() {
+  const wood: Resource = {
+    name: "Madeira",
+    icon: "🌳",
+  };
+
+  const coin: Resource = {
+    name: "Moeda",
+    icon: "🪙",
+  };
+
+  const resources: Resources = {
+    wood,
+    coin,
+  };
+
+  // ...
+}
+```
+
+2. Passe o objeto `resources` como propriedade para os componentes `ResourcesContainer` e `ActionsContainer`.
+
+```tsx
+/* App.tsx */
+
+return (
+  <article className={styles.container}>
+    <Header />
+    <ResourcesContainer resources={resources} />
+    <ActionsContainer resources={resources} />
+  </article>
+);
+```
+
+3. Receba o objeto `resources` como propriedade no componente `ResourcesContainer`.
+
+```tsx
+/* ResourcesContainer.tsx */
+
+interface ResourcesContainerProps {
+  resources: Resources;
+}
+
+export default function ResourcesContainer({
+  resources,
+}: ResourcesContainerProps) {
+  // ...
+}
+```
+
+4. Receba o objeto `resources` como propriedade no componente `ActionsContainer`.
+
+```tsx
+/* ActionsContainer.tsx */
+
+interface ActionsContainerProps {
+  resources: Resources;
+}
+
+export default function ActionsContainer({ resources }: ActionsContainerProps) {
+  // ...
+}
+```
+
+5. Atualize as propriedades `trades` das ações para que elas recebam a lista de recursos disponíveis.
+
+```tsx
+/* ActionsContainer.tsx */
+
+const chopWood: Action = {
+  name: "Cortar Madeira",
+  icon: "🪓",
+  trades: [{ resource: resources.wood, quantity: +1 }],
+};
+
+const sellWood: Action = {
+  name: "Vender Madeira",
+  icon: "💰",
+  trades: [
+    { resource: resources.wood, quantity: -1 },
+    { resource: resources.coin, quantity: +1 },
+  ],
+};
+```
+
+Você pode ter percebido que não estamos armazenando a quantidade de recursos em lugar algum.
+Isso ocorre porque a quantidade de recursos é um estado compartilhado entre os componentes `ResourcesContainer` e `ActionsContainer`.
+
+Esse componente é o `App`, que é o principal da aplicação.
+Dessa forma, ele é local ideal para criar o objeto que representa o estoque de recursos.

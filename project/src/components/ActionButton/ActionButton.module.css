@@ -5,7 +5,8 @@
   align-items: center;
   gap: 0.25rem;
   padding: 1rem;
-  max-width: 7.5rem;
+  min-width: 6.5rem;
+  max-width: 6.5rem;
   border-radius: 0.75rem;
   background-color: white;
   &:global {
