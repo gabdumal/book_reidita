@@ -3,6 +3,7 @@ title: Estado
 author: Gabriel Malosto
 ---
 
+import { Aside } from "@astrojs/starlight/components";
 import Figure from "/src/components/Figure.astro";
 
 import actions from "/src/assets/content/docs/course/state/actions.png";
@@ -32,6 +33,7 @@ Uma vez que esses tipos serão usados por todo o projeto, é melhor defini-los e
 export interface Resource {
   name: string;
   icon: string;
+  amount: number;
 }
 
 export interface Resources {
@@ -40,18 +42,17 @@ export interface Resources {
 }
 ```
 
-3. Edite o componente `ResourceDisplay` para que ele receba um objeto do tipo `Resource` e a quantidade dele no estoque. Lembre-se de importar a interface `Resource` no início do arquivo.
+3. Edite o componente `ResourceDisplay` para que ele receba um objeto do tipo `Resource`. Lembre-se de importar a interface `Resource` no início do arquivo.
 
 ```tsx
 /* ResourceDisplay.tsx */
 
 interface ResourceDisplayProps {
   resource: Resource;
-  amount: number;
 }
 ```
 
-4. Atualize os props recebidos pela função que define o componente. Também atualize o conteúdo dos elementos `<h1>` e `<span>` para exibir o nome e o ícone do recurso, respectivamente.
+4. Atualize os props recebidos pela função que define o componente. Também atualize o conteúdo dos elementos `<h1>` e `<span>` para exibir o nome, o ícone e a quantidade do recurso.
 
 ```tsx
 /* ResourceDisplay.tsx */
@@ -64,7 +65,7 @@ export default function ResourceDisplay({
     <div className={styles.box}>
       <h1 className={styles.name}>{resource.name}</h1>
       <span className={styles.icon}>{resource.icon}</span>
-      <p className={styles.amount}>{amount}</p>
+      <p className={styles.amount}>{resource.amount}</p>
     </div>
   );
 }
@@ -79,11 +80,13 @@ export default function ResourcesContainer() {
   const wood: Resource = {
     name: "Madeira",
     icon: "🌳",
+    amount: 0,
   };
 
   const coin: Resource = {
     name: "Moeda",
     icon: "🪙",
+    amount: 0,
   };
 
   // ...
@@ -101,7 +104,7 @@ const resources: Resources = {
 };
 ```
 
-7. Atualize as chamadas do componente `ResourceDisplay` para que elas passem o recurso e a quantidade.
+7. Atualize as chamadas do componente `ResourceDisplay` para que elas passem o recurso.
 
 ```tsx
 /* ResourcesContainer.tsx */
@@ -109,8 +112,8 @@ const resources: Resources = {
 return (
   <section className={styles.container}>
     <div className={styles.group}>
-      <ResourceDisplay resource={resources.wood} amount={0} />
-      <ResourceDisplay resource={resources.coin} amount={0} />
+      <ResourceDisplay resource={resources.wood} />
+      <ResourceDisplay resource={resources.coin} />
     </div>
   </section>
 );
@@ -245,11 +248,13 @@ export default function App() {
   const wood: Resource = {
     name: "Madeira",
     icon: "🌳",
+    amount: 0,
   };
 
   const coin: Resource = {
     name: "Moeda",
     icon: "🪙",
+    amount: 0,
   };
 
   const resources: Resources = {
@@ -326,8 +331,204 @@ const sellWood: Action = {
 };
 ```
 
-Você pode ter percebido que não estamos armazenando a quantidade de recursos em lugar algum.
-Isso ocorre porque a quantidade de recursos é um estado compartilhado entre os componentes `ResourcesContainer` e `ActionsContainer`.
+## Hook useState
 
-Esse componente é o `App`, que é o principal da aplicação.
-Dessa forma, ele é local ideal para criar o objeto que representa o estoque de recursos.
+Precisamos de alguma forma de atualizar o valor dos recursos quando uma ação é executada.
+Como fazer isso se os recursos são definidos no componente `App` e o botão está no componente `ActionButton`?
+
+O React fornece um **hook** chamado `useState` que permite adicionar estado a um componente funcional.
+Ele permite que, ao atualizar o estado, o componente seja renderizado novamente para refletir as mudanças.
+
+<Aside type="note">
+  Um **hook** é uma função especial que implementa diferentes funcionalidades do
+  React em componentes funcionais.
+</Aside>
+
+1. Importe o hook `useState` do React no arquivo `App.tsx`.
+
+```tsx
+/* App.tsx */
+
+import { useState } from "react";
+```
+
+2. Apague as definições dos objetos `resource` e `resources`. Então use o hook `useState` para criar um estado que armazena os dados definidos anteriormente.
+
+```tsx
+/* App.tsx */
+
+export default function App() {
+  const [resources, setResources] = useState<Resources>({
+    wood: {
+      name: "Madeira",
+      icon: "🌳",
+      amount: 0,
+    },
+    coin: {
+      name: "Moeda",
+      icon: "🪙",
+      amount: 0,
+    },
+  });
+
+  // ...
+}
+```
+
+<Aside type="note">
+  O hook `useState` retorna um array com dois elementos. O primeiro é o estado
+  atual, que é inicializado com o valor passado como argumento. O segundo é uma
+  função que atualiza o estado, a qual pode ser chamada para inserir um novo
+  valor.
+</Aside>
+
+3. Passe a função `setResources` como propriedade para o componente `ActionsContainer`.
+
+```tsx
+/* App.tsx */
+
+<ActionsContainer resources={resources} setResources={setResources} />
+```
+
+4. Receba a função `setResources` como propriedade no componente `ActionsContainer`.
+
+```tsx
+/* ActionsContainer.tsx */
+
+interface ActionsContainerProps {
+  resources: Resources;
+  setResources: React.Dispatch<React.SetStateAction<Resources>>;
+}
+```
+
+5. Atualize a função que define o componente `ActionsContainer` para que ela receba a função `setResources`.
+
+```tsx
+export default function ActionsContainer({
+  resources,
+  setResources,
+}: ActionsContainerProps) {
+  // ...
+}
+```
+
+6. Passe a função `setResources` como propriedade para os componentes `ActionButton`.
+
+```tsx
+/* ActionsContainer.tsx */
+
+<ActionButton action={actions.chopWood} setResources={setResources} />
+<ActionButton action={actions.sellWood} setResources={setResources} />
+```
+
+7. Receba a função `setResources` como propriedade no componente `ActionButton`.
+
+```tsx
+/* ActionButton.tsx */
+
+interface ActionButtonProps {
+  action: Action;
+  setResources: React.Dispatch<React.SetStateAction<Resources>>;
+}
+```
+
+8. Atualize os props recebidos pela função que define o componente `ActionButton`.
+
+```tsx
+/* ActionButton.tsx */
+
+export default function ActionButton({
+  action,
+  setResources,
+}: ActionButtonProps) {
+  // ...
+}
+```
+
+## Atualizando os recursos
+
+Vamos atualizar a função `performTrade` no componente `ActionButton` para que ela calcule as trocas e atualize o estado dos recursos.
+
+1.  Inicialize uma variável para determinar se é possível executar todas as trocas necessárias para a ação.
+
+```tsx
+/* ActionButton.tsx */
+
+const performTrade = () => {
+  let tradeIsPossible = true;
+
+  // ...
+};
+```
+
+2.  Itere sobre as trocas necessárias para a ação, recebendo pelos parâmetros o recurso e a quantidade a ser alterada. Podemos utilizar a sintaxe de desestruturação para acessá-los.
+
+```tsx
+/* ActionButton.tsx */
+
+action.trades.forEach(({ resource, quantity }) => {
+  // ...
+});
+```
+
+<Aside type="note">
+  O método `forEach` é utilizado para iterar sobre os elementos de um vetor. Ele
+  recebe uma função de *callback* nos parâmetros, a qual executa sobre cada
+  elemento do vetor. Como somos nós quem está chamando o método, podemos definir
+  o corpo da função de *callback*. Ela pode receber pelos parâmetros: o elemento
+  atual, o índice do elemento e o vetor completo.
+</Aside>
+
+3.  Dentro do `forEach`, calcule o novo valor do recurso e verifique se a troca é possível.
+
+```tsx
+/* ActionButton.tsx */
+
+const newAmount = resource.amount + quantity;
+tradeIsPossible = tradeIsPossible && newAmount >= 0;
+```
+
+4.  Dentro do `forEach`, caso a troca seja possível, atualize o valor do recurso.
+
+```tsx
+/* ActionButton.tsx */
+
+if (tradeIsPossible) resource.amount = newAmount;
+```
+
+5.  Após o `forEach`, verifique se todas as trocas foram possíveis e, caso positivo, atualize o estado dos recursos.
+
+```tsx
+/* ActionButton.tsx */
+
+if (tradeIsPossible) setResources(resources => ({ ...resources }));
+```
+
+<Aside type="note">
+  A função `setResources` recebe uma função de *callback* que retorna o novo
+  estado. Ela passa como parâmetro o valor do estado antes de fazermos a
+  atualização. Então, utilizamos o operador de **espalhamento** (`...`) para
+  copiar todos os recursos atualizados para o estado existente.
+</Aside>
+
+O código final da função `performTrade` deve ser igual ao seguinte:
+
+```tsx
+/* ActionButton.tsx */
+
+const performTrade = () => {
+  let tradeIsPossible = true;
+
+  action.trades.forEach(({ resource, quantity }) => {
+    const newAmount = resource.amount + quantity;
+    tradeIsPossible = tradeIsPossible && newAmount >= 0;
+
+    if (tradeIsPossible) resource.amount = newAmount;
+  });
+
+  if (tradeIsPossible) setResources(resources => ({ ...resources }));
+};
+```
+
+Ao clicar no botão de cortar madeira, a quantidade de madeira deve aumentar em uma unidade.
+Já ao clicar no botão de vender madeira, a quantidade de madeira deve diminuir em uma unidade e a quantidade de moedas deve aumentar em uma unidade.

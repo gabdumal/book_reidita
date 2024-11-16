@@ -6,9 +6,13 @@ import styles from "./ActionsContainer.module.css";
 
 interface ActionsContainerProps {
   resources: Resources;
+  setResources: React.Dispatch<React.SetStateAction<Resources>>;
 }
 
-export default function ActionsContainer({ resources }: ActionsContainerProps) {
+export default function ActionsContainer({
+  resources,
+  setResources,
+}: ActionsContainerProps) {
   const chopWood: Action = {
     name: "Cortar Madeira",
     icon: "🪓",
@@ -32,8 +36,8 @@ export default function ActionsContainer({ resources }: ActionsContainerProps) {
   return (
     <section className={styles.container}>
       <div className={styles.group}>
-        <ActionButton action={actions.chopWood} />
-        <ActionButton action={actions.sellWood} />
+        <ActionButton action={actions.chopWood} setResources={setResources} />
+        <ActionButton action={actions.sellWood} setResources={setResources} />
       </div>
     </section>
   );

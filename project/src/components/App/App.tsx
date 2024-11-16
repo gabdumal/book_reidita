@@ -1,30 +1,29 @@
-import { Resource, Resources } from "../../types";
+import { useState } from "react";
+import { Resources } from "../../types";
 import ActionsContainer from "../ActionsContainer/ActionsContainer";
 import Header from "../Header/Header";
 import ResourcesContainer from "../ResourcesContainer/ResourcesContainer";
 import styles from "./App.module.css";
 
 export default function App() {
-  const wood: Resource = {
-    name: "Madeira",
-    icon: "🌳",
-  };
-
-  const coin: Resource = {
-    name: "Moeda",
-    icon: "🪙",
-  };
-
-  const resources: Resources = {
-    wood,
-    coin,
-  };
+  const [resources, setResources] = useState<Resources>({
+    wood: {
+      name: "Madeira",
+      icon: "🌳",
+      amount: 0,
+    },
+    coin: {
+      name: "Moeda",
+      icon: "🪙",
+      amount: 0,
+    },
+  });
 
   return (
     <article className={styles.container}>
       <Header />
       <ResourcesContainer resources={resources} />
-      <ActionsContainer resources={resources} />
+      <ActionsContainer resources={resources} setResources={setResources} />
     </article>
   );
 }

@@ -12,8 +12,8 @@ export default function ResourcesContainer({
   return (
     <section className={styles.container}>
       <div className={styles.group}>
-        <ResourceDisplay resource={resources.wood} amount={0} />
-        <ResourceDisplay resource={resources.coin} amount={0} />
+        <ResourceDisplay resource={resources.wood} />
+        <ResourceDisplay resource={resources.coin} />
       </div>
     </section>
   );

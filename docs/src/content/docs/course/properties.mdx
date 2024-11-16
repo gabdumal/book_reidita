@@ -5,6 +5,7 @@ author: Gabriel Malosto
 
 import { Aside } from "@astrojs/starlight/components";
 import Figure from "/src/components/Figure.astro";
+import Keyboard from "/src/components/Keyboard.astro";
 
 import twoResources from "/src/assets/content/docs/course/properties/two_resources.png";
 import action from "/src/assets/content/docs/course/properties/action.png";
@@ -39,7 +40,7 @@ interface ResourceDisplayProps {
   objeto. Ela funciona de forma similar a uma *struct* em C.
 </Aside>
 
-3. Modifique a função que define o componente para que ela receba um argumento do tipo `ResourceDisplayProps`. Utilizamos a sintaxe de desestruturação para acessar as propriedades do objeto dentro das chaves.
+3. Modifique a função que define o componente para que ela receba um argumento do tipo `ResourceDisplayProps`. Utilizamos a sintaxe de desestruturação para acessar as propriedades do objeto.
 
 ```tsx
 /* ResourceDisplay.tsx */
@@ -52,6 +53,12 @@ export default function ResourceDisplay({
   // ...
 }
 ```
+
+<Aside type="note">
+  A sintaxe de **desestruturação** é uma forma de extrair valores de objetos e
+  vetores e atribuí-los a variáveis. Para utilizá-la, basta colocar o nome do
+  objeto entre chaves `{}` &mdash; para vetores, utilizamos colchetes `[]`.
+</Aside>
 
 4. Substitua o conteúdo dentro dos elementos `<h1>`, `<span>` e `<p>` pelas variáveis `name`, `icon` e `amount`, respectivamente. Cerque cada variável por chaves `{}` para que o JSX as interprete como expressões JavaScript.
 
@@ -270,3 +277,38 @@ O resultado final deve ser como o seguinte:
     },
   ]}
 />
+
+### Evento de clique
+
+Por enquanto, o botão de ação não faz nada.
+Vamos adicionar uma função que imprime uma mensagem no console quando o botão é clicado.
+
+1. Abra o arquivo `ActionButton.tsx`.
+2. Dentro da função `ActionButton`, crie uma função que imprime o nome da ação no console.
+
+```tsx
+export default function ActionButton({ name, icon }: ActionButtonProps) {
+  const performTrade = () => {
+    console.log(`Realizando a ação: ${name}`);
+  };
+}
+```
+
+<Aside type="note">
+  A função `performTrade` é uma função de flecha &mdash; ou **arrow function**.
+  Essa é uma sintaxe que permite guardar a definição da função em uma variável,
+  além de ter um comportamento ligeiramente diferente para o JavaScript.
+</Aside>
+
+3. Adicione ao botão um evento `onClick` que chama a função `performTrade`.
+
+```tsx
+<button className={styles.button} onClick={performTrade}>
+```
+
+Abra o console de depuração no navegador com a tecla <Keyboard keys={["F12"]}/>.
+Clique no botão "Cortar madeira" e verifique se a mensagem é exibida no console.
+
+```plaintext
+Realizando a ação: Cortar madeira
+```
