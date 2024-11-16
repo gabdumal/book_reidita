@@ -7,6 +7,8 @@ import { Aside } from "@astrojs/starlight/components";
 import Figure from "/src/components/Figure.astro";
 
 import actions from "/src/assets/content/docs/course/state/actions.png";
+import trades from "/src/assets/content/docs/course/state/trades.png";
+import newResources from "/src/assets/content/docs/course/state/new_resources.png";
 
 Agora que temos os botões, precisamos implementar suas ações.
 A lógica de coletar madeira é simples: ao clicar no botão, a quantidade de madeira deve aumentar.
@@ -507,8 +509,9 @@ if (tradeIsPossible) setResources(resources => ({ ...resources }));
 <Aside type="note">
   A função `setResources` recebe uma função de *callback* que retorna o novo
   estado. Ela passa como parâmetro o valor do estado antes de fazermos a
-  atualização. Então, utilizamos o operador de **espalhamento** (`...`) para
-  copiar todos os recursos atualizados para o estado existente.
+  atualização. Então, utilizamos o operador de
+  [**espalhamento**](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+  (`...`) para copiar todos os recursos atualizados para o estado existente.
 </Aside>
 
 O código final da função `performTrade` deve ser igual ao seguinte:
@@ -532,3 +535,115 @@ const performTrade = () => {
 
 Ao clicar no botão de cortar madeira, a quantidade de madeira deve aumentar em uma unidade.
 Já ao clicar no botão de vender madeira, a quantidade de madeira deve diminuir em uma unidade e a quantidade de moedas deve aumentar em uma unidade.
+
+## Criando novos recursos e ações
+
+Agora que temos um sistema de recursos e ações flexível, podemos adicionar novos recursos e ações facilmente.
+Porém, antes disso, precisamos ajustar um detalhe.
+O jogador não tem como saber quais são as quantidades envolvidas nas trocas!
+
+### Lista de trocas
+
+Para resolver isso, vamos editar o componente `ActionButton` para exibir as quantidades de troca.
+Após o elemento `<button>`, crie um elemento de lista não ordenada [`<ul>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul).
+
+```tsx
+/* ActionButton.tsx */
+
+<ul className={styles.trades}>
+  {action.trades.map(({ resource, quantity }) => (
+    <li key={resource.name}>
+      {quantity > 0 ? "+" : ""}
+      {quantity} {resource.icon} {resource.name}
+    </li>
+  ))}
+</ul>
+```
+
+O resultado final deve ser como o seguinte:
+
+<Figure
+  caption="Botões de ação para cortar madeira e vender madeira."
+  images={[
+    {
+      src: trades,
+      alt: `Página do projeto mostrando os botões de ação para cortar e vender madeira, cada um com seu nome, ícone e trocas associadas. A troca de cortar madeira é de +1 🌳 Madeira, e a troca de vender madeira é de -1 🌳 Madeira e +1 🪙 Moeda.`,
+    },
+  ]}
+/>
+
+### Recursos
+
+Agora, vamos adicionar dois novos recursos: casa e trabalhador.
+A casa custa madeira e moedas.
+Já o trabalhador precisa do salário pago em moedas e de uma casa para morar.
+
+1. Edite o tipo `Resources` no arquivo `types.ts` para incluir os novos recursos.
+
+```tsx
+/* types.ts */
+
+export interface Resources {
+  wood: Resource;
+  coin: Resource;
+  house: Resource;
+  worker: Resource;
+}
+```
+
+2. Adicione os objetos `house` e `worker` ao estado inicial de recursos no componente `App`.
+
+```tsx
+/* App.tsx */
+
+const [resources, setResources] = useState<Resources>({
+  wood: {
+    name: "Madeira",
+    icon: "🌳",
+    amount: 0,
+  },
+  coin: {
+    name: "Moeda",
+    icon: "🪙",
+    amount: 0,
+  },
+  house: {
+    name: "Casa",
+    icon: "🏠",
+    amount: 0,
+  },
+  worker: {
+    name: "Trabalhador",
+    icon: "👷",
+    amount: 0,
+  },
+});
+```
+
+3. Edite o componente `ResourcesContainer` para exibir os novos recursos dinamicamente.
+
+```tsx
+/* ResourcesContainer.tsx */
+
+return (
+  <section className={styles.container}>
+    <div className={styles.group}>
+      {Object.values(resources).map(resource => (
+        <ResourceDisplay key={resource.name} resource={resource} />
+      ))}
+    </div>
+  </section>
+);
+```
+
+O resultado final deve ser como o seguinte:
+
+<Figure
+  caption="Recursos Madeira, Moeda, Casa e Trabalhador."
+  images={[
+    {
+      src: newResources,
+      alt: `Página do projeto mostrando os recursos "Madeira", "Moeda", "Casa" e "Trabalhador", cada um com seu nome, ícone e quantidade. Abaixo, há botões de ação para cortar e vender madeira.`,
+    },
+  ]}
+/>

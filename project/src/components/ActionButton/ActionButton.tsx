@@ -31,6 +31,14 @@ export default function ActionButton({
       <button className={styles.button} onClick={performTrade}>
         <span className={styles.icon}>{action.icon}</span>
       </button>
+      <ul className={styles.trades}>
+        {action.trades.map(({ resource, quantity }) => (
+          <li key={resource.name}>
+            {quantity > 0 ? "+" : ""}
+            {quantity} {resource.icon} {resource.name}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

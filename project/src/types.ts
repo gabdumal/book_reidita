@@ -7,6 +7,8 @@ export interface Resource {
 export interface Resources {
   wood: Resource;
   coin: Resource;
+  house: Resource;
+  worker: Resource;
 }
 
 export interface Trade {

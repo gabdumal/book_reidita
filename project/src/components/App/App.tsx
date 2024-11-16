@@ -17,6 +17,16 @@ export default function App() {
       icon: "🪙",
       amount: 0,
     },
+    house: {
+      name: "Casa",
+      icon: "🏠",
+      amount: 0,
+    },
+    worker: {
+      name: "Trabalhador",
+      icon: "👷",
+      amount: 0,
+    },
   });
 
   return (
