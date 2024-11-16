@@ -36,8 +36,10 @@ interface ResourceDisplayProps {
 ```
 
 <Aside type="note">
-  Uma **interface** é um recurso do TypeScript que permite definir a forma de um
-  objeto. Ela funciona de forma similar a uma *struct* em C.
+  Uma
+  [**interface**](https://www.typescriptlang.org/docs/handbook/2/objects.html) é
+  um recurso do TypeScript que permite definir a forma de um objeto. Ela
+  funciona de forma similar a uma *struct* em C.
 </Aside>
 
 3. Modifique a função que define o componente para que ela receba um argumento do tipo `ResourceDisplayProps`. Utilizamos a sintaxe de desestruturação para acessar as propriedades do objeto.
@@ -55,12 +57,14 @@ export default function ResourceDisplay({
 ```
 
 <Aside type="note">
-  A sintaxe de **desestruturação** é uma forma de extrair valores de objetos e
-  vetores e atribuí-los a variáveis. Para utilizá-la, basta colocar o nome do
-  objeto entre chaves `{}` &mdash; para vetores, utilizamos colchetes `[]`.
+  A sintaxe de
+  [**desestruturação**](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+  é uma forma de extrair valores de objetos e vetores e atribuí-los a variáveis.
+  Para utilizá-la, basta colocar o nome do objeto entre chaves `{}` &mdash; para
+  vetores, utilizamos colchetes `[]`.
 </Aside>
 
-4. Substitua o conteúdo dentro dos elementos `<h1>`, `<span>` e `<p>` pelas variáveis `name`, `icon` e `amount`, respectivamente. Cerque cada variável por chaves `{}` para que o JSX as interprete como expressões JavaScript.
+4. Substitua o conteúdo dentro dos elementos `<h1>`, [`<span>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span) e `<p>` pelas variáveis `name`, `icon` e `amount`, respectivamente. Cerque cada variável por chaves `{}` para que o JSX as interprete como expressões JavaScript.
 
 ```tsx
 /* ResourceDisplay.tsx */
@@ -125,7 +129,7 @@ O resultado final deve ser como o seguinte:
 ## Ações
 
 Agora que temos recursos no jogo, precisamos de alguma forma de interagir com eles.
-Vamos adicionar botões que permitam ao jogador coletar recursos.
+Vamos adicionar botões que permitam ao jogador coletar recursos, representados pelo elemento [`<button>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button).
 
 1. Crie um novo componente chamado `ActionButton`.
 2. Adicione o seguinte código ao arquivo `ActionButton.tsx`:
@@ -201,6 +205,19 @@ export default function ActionButton({ name, icon }: ActionButtonProps) {
 
 .icon {
   font-size: 3rem;
+}
+
+.trades {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  gap: 0.25rem;
+}
+
+.trades > li {
+  list-style: none;
 }
 ```
 
@@ -295,7 +312,8 @@ export default function ActionButton({ name, icon }: ActionButtonProps) {
 ```
 
 <Aside type="note">
-  A função `performTrade` é uma função de flecha &mdash; ou **arrow function**.
+  A função `performTrade` é uma função de flecha &mdash; ou [**arrow
+  function**](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Functions/Arrow_functions).
   Essa é uma sintaxe que permite guardar a definição da função em uma variável,
   além de ter um comportamento ligeiramente diferente para o JavaScript.
 </Aside>

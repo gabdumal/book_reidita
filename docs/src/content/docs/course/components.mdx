@@ -61,7 +61,7 @@ Para utilizar essas classes no seu componente, importe o arquivo CSS no topo do 
 import styles from "./App.module.css";
 ```
 
-Então, adicione o atributo `className` ao elemento `<article>`.
+Então, adicione o atributo `className` ao elemento [`<article>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article).
 Passe para ele a classe `styles.container`.
 
 ```tsx
@@ -208,7 +208,7 @@ Não o confunda com o nome do nosso componente personalizado, `Header`.
   num arquivo.
 </Aside>
 
-Por fim, criaremos um elemento de título de nível 1, representado pela tag [`<h1>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/h1).
+Por fim, criaremos um elemento de título de nível 1, representado pela tag `<h1>`.
 Esse elemento é o mais importante de todos os títulos de uma página, e é frequentemente usado para o título principal.
 
 ```tsx
@@ -241,7 +241,7 @@ Façamos isso em duas partes:
 import Header from "../Header/Header";
 ```
 
-2. Adicione o componente `Header` dentro do elemento [`<article>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/article) retornado pelo componente `App`.
+2. Adicione o componente `Header` dentro do elemento `<article>` retornado pelo componente `App`.
 
 ```tsx
 import Header from "../Header/Header";
@@ -462,7 +462,7 @@ export default function ResourceDisplay() {
 ```
 
 4. Abra o arquivo `ResourcesContainer.tsx` e remova o texto "Recursos".
-5. Crie um elemento `<div>` com a classe `styles.group` e adicione o componente `ResourceDisplay` dentro dele.
+5. Crie um elemento [`<div>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div) com a classe `styles.group` e adicione o componente `ResourceDisplay` dentro dele.
 
 ```tsx
 import ResourceDisplay from "../ResourceDisplay/ResourceDisplay";
@@ -501,14 +501,14 @@ src/
 └── vite-env.d.ts
 ```
 
-O resultado final será um botão com o emoji de uma árvore em que o jogador pode clicar.
+O resultado final será uma caixa com o emoji de uma árvore em que o jogador pode clicar.
 
 <Figure
   caption={`Componentes "ResourcesContainer" e "ResourceDisplay" estilizados.`}
   images={[
     {
       src: resources,
-      alt: `Página do projeto, mostrando um botão com o ícone de uma árvore e o texto "Madeira" acima. Abaixo, um número zero indica a quantidade de madeira.`,
+      alt: `Página do projeto, mostrando uma caixa com o ícone de uma árvore e o texto "Madeira" acima. Abaixo, um número zero indica a quantidade de madeira.`,
     },
   ]}
 />
