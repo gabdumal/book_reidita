@@ -325,29 +325,29 @@ Este será o resultado final do componente `Header` na página.
 
 ## Obtendo recursos
 
-Uma característica chave de jogos _Idle Clicker_ é um botão em que o jogador pode clicar para ganhar pontos.
-No nosso jogo, teremos mais de um botão, cada um para ganhar um tipo de recurso diferente.
+Uma característica chave de jogos _Idle Clicker_ é o estoque de pontos acumulados.
+No nosso jogo, teremos mais de um recurso, então precisamos de um componente que represente cada um deles.
 
-### Grupo de botões
+### Grupo
 
-Podemos imaginar que esses botões serão agrupados de alguma forma.
+Podemos imaginar que esses recursos serão agrupados de alguma forma.
 Felizmente, há um elemento padrão do HTML perfeito para essa função.
 É o elemento [`<section>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/section), que representa uma seção genérica de uma página.
 Assim como no caso do cabeçalho, faz sentido criar um componente personalizado para esse agrupamento.
 
-1. Dentro da pasta `src/components`, crie uma pasta `Resources`.
-2. Dentro dela, crie um arquivo `Resources.tsx`.
+1. Dentro da pasta `src/components`, crie uma pasta `ResourcesContainer`.
+2. Dentro dela, crie um arquivo `ResourcesContainer.tsx`.
 3. Preencha-o com a estrutura básica do componente:
 
 ```tsx
-import styles from "./Resources.module.css";
+import styles from "./ResourcesContainer.module.css";
 
-export default function Resources() {
+export default function ResourcesContainer() {
   return <section className={styles.container}>Recursos</section>;
 }
 ```
 
-4. Crie um arquivo `Resources.module.css` para estilizar o componente.
+4. Crie um arquivo `ResourcesContainer.module.css` para estilizar o componente.
 5. Adicione a ele as seguintes regras de estilo:
 
 ```css
@@ -368,18 +368,18 @@ export default function Resources() {
 ```
 
 5. Abra o arquivo `App.tsx` e remova o elemento `<p>`.
-6. Importe o componente `Resources` no arquivo `App.tsx`, e o adicione logo abaixo do componente `Header`.
+6. Importe o componente `ResourcesContainer` no arquivo `App.tsx`, e o adicione logo abaixo do componente `Header`.
 
 ```tsx
 import Header from "../Header/Header";
-import Resources from "../Resources/Resources";
+import ResourcesContainer from "../ResourcesContainer/ResourcesContainer";
 import styles from "./App.module.css";
 
 export default function App() {
   return (
     <article className={styles.container}>
       <Header />
-      <Resources />
+      <ResourcesContainer />
     </article>
   );
 }
@@ -396,39 +396,37 @@ src/
 │   ├── Header/
 │   │   ├── Header.module.css
 │   │   └── Header.tsx
-│   └── Resources/
-│       ├── Resources.module.css
-│       └── Resources.tsx
+│   └── ResourcesContainer/
+│       ├── ResourcesContainer.module.css
+│       └── ResourcesContainer.tsx
 ├── index.css
 ├── main.tsx
 └── vite-env.d.ts
 ```
 
-### Botão
+### Exibidor
 
-Depois de criar o elemento que agrupa os botões, podemos de fato criar os recursos do jogo.
-Para isso, criaremos outro componente, chamado `Resource`.
+Depois de criar o elemento que agrupa os recursos, podemos de fato criar o exibidor da quantidade de cada um.
+Para isso, criaremos outro componente, chamado `ResourceDisplay`.
 
-1. Dentro da pasta `src/components`, crie uma pasta `Resource`.
-2. Dentro dela, crie um arquivo `Resource.tsx` e o preencha com o seguinte código:
+1. Dentro da pasta `src/components`, crie uma pasta `ResourceDisplay`.
+2. Dentro dela, crie um arquivo `ResourceDisplay.tsx` e o preencha com o seguinte código:
 
 ```tsx
-import styles from "./Resource.module.css";
+import styles from "./ResourceDisplay.module.css";
 
-export default function Resource() {
+export default function ResourceDisplay() {
   return (
     <div className={styles.box}>
-      <h1 className={styles.title}>Madeira</h1>
-      <button className={styles.button}>
-        <span className={styles.icon}>🌳</span>
-      </button>
-      <p className={styles.quantity}>0</p>
+      <h1 className={styles.name}>Madeira</h1>
+      <span className={styles.icon}>🌳</span>
+      <p className={styles.amount}>0</p>
     </div>
   );
 }
 ```
 
-3. Crie um arquivo `Resource.module.css` para estilizar o componente e adicione a ele as seguintes regras de estilo:
+3. Crie um arquivo `ResourceDisplay.module.css` para estilizar o componente e adicione a ele as seguintes regras de estilo:
 
 ```css
 .box {
@@ -447,52 +445,34 @@ export default function Resource() {
   }
 }
 
-.title {
+.name {
   margin: 0;
   font-weight: 900;
   font-size: 1.25rem;
-}
-
-.button {
-  margin: 0;
-  background-color: transparent;
-  border: none;
-}
-
-.button:active {
-  transform: scale(0.9);
-  filter: brightness(0.9);
-}
-
-.button:active > .icon {
-  &:global {
-    animation: drop-shadow-color-transform 5s cubic-bezier(0.4, 0, 0.6, 1)
-      infinite;
-  }
 }
 
 .icon {
   font-size: 3rem;
 }
 
-.quantity {
+.amount {
   margin: 0;
   font-weight: 900;
 }
 ```
 
-4. Abra o arquivo `Resources.tsx` e remova o texto "Recursos".
-5. Crie um elemento `<div>` com a classe `styles.group` e adicione o componente `Resource` dentro dele.
+4. Abra o arquivo `ResourcesContainer.tsx` e remova o texto "Recursos".
+5. Crie um elemento `<div>` com a classe `styles.group` e adicione o componente `ResourceDisplay` dentro dele.
 
 ```tsx
-import Resource from "../Resource/Resource";
-import styles from "./Resources.module.css";
+import ResourceDisplay from "../ResourceDisplay/ResourceDisplay";
+import styles from "./ResourcesContainer.module.css";
 
-export default function Resources() {
+export default function ResourcesContainer() {
   return (
     <section className={styles.container}>
       <div className={styles.group}>
-        <Resource />
+        <ResourceDisplay />
       </div>
     </section>
   );
@@ -510,12 +490,12 @@ src/
 │   ├── Header/
 │   │   ├── Header.module.css
 │   │   └── Header.tsx
-│   ├── Resource/
-│   │   ├── Resource.module.css
-│   │   └── Resource.tsx
-│   └── Resources/
-│       ├── Resources.module.css
-│       └── Resources.tsx
+│   ├── ResourceDisplay/
+│   │   ├── ResourceDisplay.module.css
+│   │   └── ResourceDisplay.tsx
+│   └── ResourcesContainer/
+│       ├── ResourcesContainer.module.css
+│       └── ResourcesContainer.tsx
 ├── index.css
 ├── main.tsx
 └── vite-env.d.ts
@@ -524,7 +504,7 @@ src/
 O resultado final será um botão com o emoji de uma árvore em que o jogador pode clicar.
 
 <Figure
-  caption={`Componentes "Resources" e "Resource.tsx" estilizados.`}
+  caption={`Componentes "ResourcesContainer" e "ResourceDisplay" estilizados.`}
   images={[
     {
       src: resources,

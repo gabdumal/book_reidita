@@ -14,7 +14,7 @@ export default function ResourceDisplay({
     <div className={styles.box}>
       <h1 className={styles.name}>{resource.name}</h1>
       <span className={styles.icon}>{resource.icon}</span>
-      <p className={styles.quantity}>{amount}</p>
+      <p className={styles.amount}>{amount}</p>
     </div>
   );
 }
