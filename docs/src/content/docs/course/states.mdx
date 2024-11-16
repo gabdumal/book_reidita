@@ -1,15 +1,15 @@
 ---
-title: Estado
+title: Estados
 author: Gabriel Malosto
 ---
 
 import { Aside } from "@astrojs/starlight/components";
 import Figure from "/src/components/Figure.astro";
 
-import actions from "/src/assets/content/docs/course/state/actions.png";
-import trades from "/src/assets/content/docs/course/state/trades.png";
-import newResources from "/src/assets/content/docs/course/state/new_resources.png";
-import newActions from "/src/assets/content/docs/course/state/new_actions.png";
+import actions from "/src/assets/content/docs/course/states/actions.png";
+import trades from "/src/assets/content/docs/course/states/trades.png";
+import newResources from "/src/assets/content/docs/course/states/new_resources.png";
+import newActions from "/src/assets/content/docs/course/states/new_actions.png";
 
 Agora que temos os botões, precisamos implementar suas ações.
 A lógica de coletar madeira é simples: ao clicar no botão, a quantidade de madeira deve aumentar.
@@ -30,7 +30,7 @@ Uma vez que esses tipos serão usados por todo o projeto, é melhor defini-los e
 1. Crie um arquivo chamado `types.ts` na pasta `src`.
 2. Adicione as seguintes interfaces ao arquivo:
 
-```tsx
+```ts
 /* types.ts */
 
 export interface Resource {
@@ -134,7 +134,7 @@ Por isso, vamos criar dois tipos: troca e ação.
 
 1. Adicione as seguintes interfaces ao arquivo `types.ts`:
 
-```tsx
+```ts
 /* types.ts */
 
 export interface Trade {
@@ -343,8 +343,9 @@ O React fornece um **hook** chamado `useState` que permite adicionar estado a um
 Ele permite que, ao atualizar o estado, o componente seja renderizado novamente para refletir as mudanças.
 
 <Aside type="note">
-  Um **hook** é uma função especial que implementa diferentes funcionalidades do
-  React em componentes funcionais.
+  Um [**hook**](https://pt-br.react.dev/reference/react/hooks) é uma função
+  especial que implementa diferentes funcionalidades do React em componentes
+  funcionais.
 </Aside>
 
 1. Importe o hook `useState` do React no arquivo `App.tsx`.
@@ -379,10 +380,10 @@ export default function App() {
 ```
 
 <Aside type="note">
-  O hook `useState` retorna um array com dois elementos. O primeiro é o estado
-  atual, que é inicializado com o valor passado como argumento. O segundo é uma
-  função que atualiza o estado, a qual pode ser chamada para inserir um novo
-  valor.
+  O hook [`**useState**`](https://pt-br.react.dev/reference/react/useState)
+  retorna um array com dois elementos. O primeiro é o estado atual, que é
+  inicializado com o valor passado como argumento. O segundo é uma função que
+  atualiza o estado, a qual pode ser chamada para inserir um novo valor.
 </Aside>
 
 3. Passe a função `setResources` como propriedade para o componente `ActionsContainer`.
@@ -579,7 +580,7 @@ Agora, vamos adicionar dois novos recursos: casa e trabalhador.
 
 1. Edite o tipo `Resources` no arquivo `types.ts` para incluir os novos recursos.
 
-```tsx
+```ts
 /* types.ts */
 
 export interface Resources {
@@ -655,7 +656,7 @@ Já o trabalhador precisa do salário pago em moedas e de uma casa para morar.
 
 1. Edite o tipo `Actions` no arquivo `types.ts` para incluir as novas ações.
 
-```tsx
+```ts
 /* types.ts */
 
 export interface Actions {

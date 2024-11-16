@@ -1,0 +1,163 @@
+---
+title: Efeitos
+author: Gabriel Malosto
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Figure from "/src/components/Figure.astro";
+
+import production from "/src/assets/content/docs/course/effects/production.png";
+
+Exploramos o aspecto _clicker_ do jogo em mais de um recurso.
+Porém, o gênero _Idle Clicker_ se fundamenta em um outro elemento: o ganho de pontos por segundo.
+
+## Adaptando a interface
+
+Precisamos adaptar o estado e a interface do jogo para que o jogador possa ver a quantidade de pontos ganhos por segundo.
+
+1. Atualize a definição da interface `Resource` para incluir um campo `production`.
+
+```ts
+/* types.ts */
+
+export interface Resource {
+  name: string;
+  icon: string;
+  amount: number;
+  production: number;
+}
+```
+
+2. Atualize o estado inicial do jogo para incluir a produção de recursos por segundo.
+
+```tsx
+/* App.tsx */
+
+const [resources, setResources] = useState<Resources>({
+  wood: {
+    name: "Madeira",
+    icon: "🌳",
+    amount: 0,
+    production: 0,
+  },
+  coin: {
+    name: "Moeda",
+    icon: "🪙",
+    amount: 0,
+    production: 0,
+  },
+  house: {
+    name: "Casa",
+    icon: "🏠",
+    amount: 0,
+    production: 0,
+  },
+  worker: {
+    name: "Trabalhador",
+    icon: "👷",
+    amount: 0,
+    production: 0,
+  },
+});
+```
+
+3. Atualize o componente `ResourceDisplay` para exibir a produção de recursos por segundo.
+
+```tsx
+/* ResourceDisplay.tsx */
+
+<div className={styles.data}>
+  <p className={styles.amount}>{resource.amount}</p>
+  <p className={styles.production}>{resource.production} / s</p>
+</div>
+```
+
+4. Atualize o arquivo `ResourceDisplay.module.css` para estilizar o componente com o novo campo de produção.
+
+```css
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 8.5rem;
+  min-width: 8.5rem;
+  border-radius: 0.75rem;
+  background-color: white;
+  &:global {
+    animation: box-shadow-color-transform 30s cubic-bezier(0.4, 0, 0.6, 1)
+      infinite;
+  }
+}
+
+.name {
+  margin: 0;
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.amount {
+  margin: 0;
+  font-weight: 900;
+}
+
+.production {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+```
+
+O resultado final deve ser como o seguinte:
+
+<Figure
+  caption="Interface do jogo com produção de recursos por segundo"
+  images={[
+    {
+      src: production,
+      alt: "Página do jogo, em que os recursos Madeira, Moeda, Casa e Trabalhador possuem dois campos para os valores: quantidade e produção por segundo.",
+    },
+  ]}
+/>
+
+Agora que temos a produção armazenada num estado, precisamos criar um sistema que atualize os recursos com o tempo.
+Felizmente, o JavaScript nos permite criar um sistema de intervalos que executam uma função a cada _n_ milissegundos.
+
+```js
+let pontos = 0;
+
+function ganharPonto() {
+  pontos++;
+  console.log(pontos);
+}
+
+setInterval(ganharPonto, 1000);
+```
+
+Porém, no React, nós não podemos chamar essa função diretamente no componente.
+Isso ocorre porque, toda vez que o estado atualiza, e o componente é renderizado novamente, todas as funções chamadas em seu escopo são disparadas novamente.
+Isso faria com que vários intervalos fossem criados simultaneamente.
+
+## Hook useEffect
+
+Para resolver esse problema, podemos usar um outro hook do React: o `useEffect`.
+
+<Aside type="note">
+  O hook [**useEffect**](https://pt-br.react.dev/reference/react/useEffect) nos
+  permite executar efeitos colaterais em componentes funcionais. Isto é,
+  associamos a um estado ou propriedade do componente uma função que será
+  executada quando este for atualizado. Isso permite sincronizá-lo com sistemas
+  externos.
+</Aside>

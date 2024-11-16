@@ -53,8 +53,12 @@ export default defineConfig({
               slug: "course/properties",
             },
             {
-              label: "Estado",
-              slug: "course/state",
+              label: "Estados",
+              slug: "course/states",
+            },
+            {
+              label: "Efeitos",
+              slug: "course/effects",
             },
           ],
           label: "Curso",

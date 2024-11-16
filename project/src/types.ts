@@ -2,6 +2,7 @@ export interface Resource {
   name: string;
   icon: string;
   amount: number;
+  production: number;
 }
 
 export interface Resources {

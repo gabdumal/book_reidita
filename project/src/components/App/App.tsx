@@ -11,21 +11,25 @@ export default function App() {
       name: "Madeira",
       icon: "🌳",
       amount: 0,
+      production: 0,
     },
     coin: {
       name: "Moeda",
       icon: "🪙",
       amount: 0,
+      production: 0,
     },
     house: {
       name: "Casa",
       icon: "🏠",
       amount: 0,
+      production: 0,
     },
     worker: {
       name: "Trabalhador",
       icon: "👷",
       amount: 0,
+      production: 0,
     },
   });
 

@@ -24,7 +24,20 @@
   font-size: 3rem;
 }
 
+.data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
 .amount {
   margin: 0;
   font-weight: 900;
+}
+
+.production {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
 }

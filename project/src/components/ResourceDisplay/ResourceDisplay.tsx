@@ -10,7 +10,10 @@ export default function ResourceDisplay({ resource }: ResourceDisplayProps) {
     <div className={styles.box}>
       <h1 className={styles.name}>{resource.name}</h1>
       <span className={styles.icon}>{resource.icon}</span>
-      <p className={styles.amount}>{resource.amount}</p>
+      <div className={styles.data}>
+        <p className={styles.amount}>{resource.amount}</p>
+        <p className={styles.production}>{resource.production} / s</p>
+      </div>
     </div>
   );
 }
