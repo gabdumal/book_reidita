@@ -161,3 +161,90 @@ Para resolver esse problema, podemos usar um outro hook do React: o `useEffect`.
   executada quando este for atualizado. Isso permite sincronizá-lo com sistemas
   externos.
 </Aside>
+
+Quando não especificamos um objeto para o `useEffect` se associar, o React executará a função somente após a renderização inicial do componente.
+Isso garante que o intervalo será definido apenas uma vez.
+
+1. Use o método `useEffect` no componente `App`, logo abaixo da chamada do `useState`. Ao atualizar a página, uma mensagem será exibida no console.
+
+```tsx
+/* App.tsx */
+
+import { useEffect, useState } from "react";
+
+// ...
+
+useEffect(() => {
+  console.log("Efeito iniciado");
+}, []);
+```
+
+2. Crie uma função `produceResources`, então a chame logo em seguida.
+
+```tsx
+useEffect(() => {
+  const produceResources = () => {
+    console.log("Produzindo recursos...");
+  };
+  produceResources();
+}, []);
+```
+
+3. Substitua a chamada da função pela inicialização de um intervalo de 1 segundo. Isso imprimirá a mensagem a cada segundo.
+
+```tsx
+useEffect(() => {
+  const produceResources = () => {
+    console.log("Produzindo recursos...");
+  };
+
+  const interval = setInterval(produceResources, 1000);
+  return () => clearInterval(interval);
+}, []);
+```
+
+<Aside>
+  O retorno da função passada ao `useEffect` é chamado de função de limpeza. Ela
+  é executada quando o componente é desmontado, ou quando o `useEffect` é
+  chamado novamente. No caso do intervalo, a função de limpeza é responsável por
+  cancelá-lo, evitando que mais um seja disparado toda vez que o componente for
+  montado.
+</Aside>
+
+5. Fora do `useEffect`, crie uma função que recebe um recurso, calcula a quantidade nova no estoque, e retorna um novo objeto modificado.
+
+```tsx
+const produceResource = (resource: Resource) => {
+  let newAmount = resource.amount + resource.production;
+  if (newAmount < 0) newAmount = 0;
+  return {
+    ...resource,
+    amount: newAmount,
+  };
+};
+```
+
+6. Atualize a função `produceResources` para retornar o estoque de recursos atualizado.
+
+```tsx
+useEffect(() => {
+  const produceResources = () => {
+    setResources((resources: Resources) => {
+      const updatedResources: Resources = {
+        wood: produceResource(resources.wood),
+        coin: produceResource(resources.coin),
+        house: produceResource(resources.house),
+        worker: produceResource(resources.worker),
+      };
+      return updatedResources;
+    });
+  };
+
+  const interval = setInterval(produceResources, 1000);
+  return () => clearInterval(interval);
+}, []);
+```
+
+Para testar, mude o valor de produção do recurso `wood` para 1 e recarregue a página.
+Possivelmente você verá a quantidade de madeira aumentar em duas unidades em vez de uma só.
+Isso ocorre pois, no modo de desenvolvimento, o React monta o componente, desmonta-o e monta novamente, a fim de testar se a lógica de implementação está correta.
