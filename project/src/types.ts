@@ -32,4 +32,4 @@ export interface Action {
   trades: Trade[];
 }
 
-export type Actions = { [Property in ActionType]: Action };
+export type Actions = { [Property in keyof typeof ActionType]: Action };

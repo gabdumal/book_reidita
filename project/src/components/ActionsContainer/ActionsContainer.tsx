@@ -1,4 +1,4 @@
-import { Action, Actions, Resources, ResourceType } from "../../types";
+import { Actions, Resources, ResourceType } from "../../types";
 import ActionButton from "../ActionButton/ActionButton";
 import styles from "./ActionsContainer.module.css";
 
@@ -13,54 +13,46 @@ export default function ActionsContainer({
   resources,
   setResources,
 }: ActionsContainerProps) {
-  const chopWood: Action = {
-    name: "Cortar Madeira",
-    icon: "🪓",
-    trades: [{ resourceType: ResourceType.wood, quantity: +1 }],
-  };
-
-  const sellWood: Action = {
-    name: "Vender Madeira",
-    icon: "💰",
-    trades: [
-      { resourceType: ResourceType.wood, quantity: -1 },
-      { resourceType: ResourceType.coin, quantity: +1 },
-    ],
-  };
-
-  const buildHouse: Action = {
-    name: "Construir Casa",
-    icon: "🛠️",
-    trades: [
-      { resourceType: ResourceType.wood, quantity: -5 },
-      { resourceType: ResourceType.coin, quantity: -5 },
-      { resourceType: ResourceType.house, quantity: +1 },
-    ],
-  };
-
-  const hireWorker: Action = {
-    name: "Contratar Trabalhador",
-    icon: "🧾",
-    trades: [
-      { resourceType: ResourceType.coin, quantity: -10 },
-      { resourceType: ResourceType.house, quantity: -1 },
-      { resourceType: ResourceType.worker, quantity: +1 },
-    ],
-  };
-
   const actions: Actions = {
-    chopWood,
-    sellWood,
-    buildHouse,
-    hireWorker,
+    chopWood: {
+      name: "Cortar Madeira",
+      icon: "🪓",
+      trades: [{ resourceType: ResourceType.wood, quantity: +1 }],
+    },
+    sellWood: {
+      name: "Vender Madeira",
+      icon: "💰",
+      trades: [
+        { resourceType: ResourceType.wood, quantity: -1 },
+        { resourceType: ResourceType.coin, quantity: +1 },
+      ],
+    },
+    buildHouse: {
+      name: "Construir Casa",
+      icon: "🛠️",
+      trades: [
+        { resourceType: ResourceType.wood, quantity: -5 },
+        { resourceType: ResourceType.coin, quantity: -5 },
+        { resourceType: ResourceType.house, quantity: +1 },
+      ],
+    },
+    hireWorker: {
+      name: "Contratar Trabalhador",
+      icon: "🧾",
+      trades: [
+        { resourceType: ResourceType.coin, quantity: -10 },
+        { resourceType: ResourceType.house, quantity: -1 },
+        { resourceType: ResourceType.worker, quantity: +1 },
+      ],
+    },
   };
 
   return (
     <section className={styles.container}>
       <div className={styles.group}>
-        {Object.values(actions).map(action => (
+        {Object.entries(actions).map(([actionType, action]) => (
           <ActionButton
-            key={action.name}
+            key={actionType}
             action={action}
             resources={resources}
             setResources={setResources}

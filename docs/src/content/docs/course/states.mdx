@@ -28,7 +28,25 @@ Uma vez que esses tipos serão usados por todo o projeto, é melhor defini-los e
 ### Recurso
 
 1. Crie um arquivo chamado `types.ts` na pasta `src`.
-2. Adicione as seguintes interfaces ao arquivo:
+
+2. Adicione a seguinte enumeração ao arquivo:
+
+```ts
+/* types.ts */
+
+export enum ResourceType {
+  wood = "wood",
+  coin = "coin",
+}
+```
+
+<Aside type="note">
+  Uma [**enumeração**](https://www.typescriptlang.org/docs/handbook/enums.html)
+  é um tipo de dados que consiste em um conjunto de valores nomeados. Cada valor
+  é associado a um número inteiro ou a uma string.
+</Aside>
+
+3. Adicione as seguinte interface ao arquivo:
 
 ```ts
 /* types.ts */
@@ -38,14 +56,17 @@ export interface Resource {
   icon: string;
   amount: number;
 }
-
-export interface Resources {
-  wood: Resource;
-  coin: Resource;
-}
 ```
 
-3. Edite o componente `ResourceDisplay` para que ele receba um objeto do tipo `Resource`. Lembre-se de importar a interface `Resource` no início do arquivo.
+4. Defina o tipo para representar um conjunto de recursos.
+
+```ts
+/* types.ts */
+
+export type Resources = { [Property in keyof typeof ResourceType]: Resource };
+```
+
+5. Edite o componente `ResourceDisplay` para que ele receba um objeto do tipo `Resource`. Lembre-se de importar a interface `Resource` no início do arquivo.
 
 ```tsx
 /* ResourceDisplay.tsx */
@@ -53,17 +74,18 @@ export interface Resources {
 interface ResourceDisplayProps {
   resource: Resource;
 }
+
+export default function ResourceDisplay({ resource }: ResourceDisplayProps) {
+  // ...
+}
 ```
 
-4. Atualize os props recebidos pela função que define o componente. Também atualize o conteúdo dos elementos `<h1>` e `<span>` para exibir o nome, o ícone e a quantidade do recurso.
+6. Atualize o conteúdo dos elementos `<h1>` e `<span>` para exibir o nome, o ícone e a quantidade do recurso.
 
 ```tsx
 /* ResourceDisplay.tsx */
 
-export default function ResourceDisplay({
-  resource,
-  amount,
-}: ResourceDisplayProps) {
+export default function ResourceDisplay({ resource }: ResourceDisplayProps) {
   return (
     <div className={styles.box}>
       <h1 className={styles.name}>{resource.name}</h1>
@@ -74,40 +96,30 @@ export default function ResourceDisplay({
 }
 ```
 
-5. Dentro da **função** que define o componente `ResourcesContainer`, crie um objeto do tipo `Resource` para representar a madeira e outro para representar as moedas.
+7. Dentro da **função** que define o componente `ResourcesContainer`, crie um objeto do tipo `Resources` para representar a madeira e as moedas.
 
 ```tsx
 /* ResourcesContainer.tsx */
 
 export default function ResourcesContainer() {
-  const wood: Resource = {
-    name: "Madeira",
-    icon: "🌳",
-    amount: 0,
-  };
-
-  const coin: Resource = {
-    name: "Moeda",
-    icon: "🪙",
-    amount: 0,
+  const resources: Resources = {
+    wood: {
+      name: "Madeira",
+      icon: "🌳",
+      amount: 0,
+    },
+    coin: {
+      name: "Moeda",
+      icon: "🪙",
+      amount: 0,
+    },
   };
 
   // ...
 }
 ```
 
-6. Logo abaixo, crie um objeto do tipo `Resources` que inclua a madeira e as moedas.
-
-```tsx
-/* ResourcesContainer.tsx */
-
-const resources: Resources = {
-  wood,
-  coin,
-};
-```
-
-7. Atualize as chamadas do componente `ResourceDisplay` para que elas passem o recurso.
+8. Atualize as chamadas do componente `ResourceDisplay` para que elas passem o recurso.
 
 ```tsx
 /* ResourcesContainer.tsx */
@@ -132,29 +144,49 @@ Uma ação é um objeto que contém um nome e relações entre recursos.
 Por exemplo, uma ação de vender madeira remove uma certa quantidade de madeira do estoque e adiciona uma certa quantidade de moedas.
 Por isso, vamos criar dois tipos: troca e ação.
 
-1. Adicione as seguintes interfaces ao arquivo `types.ts`:
+1. Adicione a interface `Trade` ao arquivo `types.ts` para representar uma troca.
 
 ```ts
 /* types.ts */
 
 export interface Trade {
-  resource: Resource;
+  resourceType: ResourceType;
   quantity: number;
 }
+```
+
+2. Adicione a seguinte enumeração ao arquivo:
+
+```ts
+/* types.ts */
+
+export enum ActionType {
+  chopWood = "chopWood",
+  sellWood = "sellWood",
+}
+```
+
+3. Adicione a interface `Action` ao arquivo `types.ts` para representar uma ação.
+
+```ts
+/* types.ts */
 
 export interface Action {
   name: string;
   icon: string;
   trades: Trade[];
 }
-
-export interface Actions {
-  chopWood: Action;
-  sellWood: Action;
-}
 ```
 
-2. Edite o componente `ActionButton` para que ele receba um objeto do tipo `Action`.
+4. Defina o tipo `Actions` para representar um conjunto de ações.
+
+```ts
+/* types.ts */
+
+export type Actions = { [Property in keyof typeof ActionType]: Action };
+```
+
+5. Edite o componente `ActionButton` para que ele receba um objeto do tipo `Action`.
 
 ```tsx
 /* ActionButton.tsx */
@@ -162,9 +194,13 @@ export interface Actions {
 interface ActionButtonProps {
   action: Action;
 }
+
+export default function ActionButton({ action }: ActionButtonProps) {
+  // ...
+}
 ```
 
-3. Atualize os props recebidos pela função que define o componente. Também atualize o conteúdo dos elementos `<p>` e `<span>` para exibir o nome e o ícone da ação, respectivamente.
+6. Atualize o conteúdo dos elementos `<p>` e `<span>` para exibir o nome e o ícone da ação, respectivamente.
 
 ```tsx
 /* ActionButton.tsx */
@@ -181,34 +217,33 @@ export default function ActionButton({ action }: ActionButtonProps) {
 }
 ```
 
-4. Dentro da **função** que define o componente `ActionsContainer`, crie um objeto do tipo `Action` para representar as ações de cortar madeira e vender madeira. Também crie um objeto do tipo `Actions` que inclua essas ações.
+7. Dentro da **função** que define o componente `ActionsContainer`, crie um objeto do tipo `Actions` para representar as ações de cortar madeira e vender madeira.
 
 ```tsx
 /* ActionsContainer.tsx */
 
 export default function ActionsContainer() {
-  const chopWood: Action = {
-    name: "Cortar Madeira",
-    icon: "🪓",
-    trades: [],
-  };
-
-  const sellWood: Action = {
-    name: "Vender Madeira",
-    icon: "💰",
-    trades: [],
-  };
-
   const actions: Actions = {
-    chopWood,
-    sellWood,
+    chopWood: {
+      name: "Cortar Madeira",
+      icon: "🪓",
+      trades: [{ resourceType: ResourceType.wood, quantity: +1 }],
+    },
+    sellWood: {
+      name: "Vender Madeira",
+      icon: "💰",
+      trades: [
+        { resourceType: ResourceType.wood, quantity: -1 },
+        { resourceType: ResourceType.coin, quantity: +1 },
+      ],
+    },
   };
 
   // ...
 }
 ```
 
-5. Atualize as chamadas do componente `ActionButton` para que elas passem as ações.
+8. Atualize as chamadas do componente `ActionButton` para que elas passem as ações.
 
 ```tsx
 /* ActionsContainer.tsx */
@@ -237,39 +272,34 @@ O resultado final deve ser como o seguinte:
 
 ## Elevação de estado
 
-Você pode ter percebido que não preenchemos o vetor de trocas das ações.
-Isso ocorre porque, para fazê-lo, é necessário receber a lista de todos os recursos disponíveis.
-Entretanto, os recursos são definidos no componente `ResourcesContainer`, e as ações são definidas no componente `ActionsContainer`, que são irmãos na hierarquia de componentes.
+Para que possamos atualizar a quantidade de recursos ao clicar nos botões de ação, precisamos de uma forma de acessar e modificar o estado dos recursos.
+Entretanto, esses são definidos no componente `ResourcesContainer`, e as ações são definidas no componente `ActionsContainer`, que são irmãos na hierarquia de componentes.
 Em situações como essa, devemos **elevar o estado** para o componente pai em comum.
 
-1. Remova a definição do objeto `resources` do componente `ResourcesContainer` e o mova para o componente `App`.
+1. Mova a definição do objeto `resources` do componente `ResourcesContainer` para o componente `App`.
 
 ```tsx
 /* App.tsx */
 
 export default function App() {
-  const wood: Resource = {
-    name: "Madeira",
-    icon: "🌳",
-    amount: 0,
-  };
-
-  const coin: Resource = {
-    name: "Moeda",
-    icon: "🪙",
-    amount: 0,
-  };
-
   const resources: Resources = {
-    wood,
-    coin,
+    wood: {
+      name: "Madeira",
+      icon: "🌳",
+      amount: 0,
+    },
+    coin: {
+      name: "Moeda",
+      icon: "🪙",
+      amount: 0,
+    },
   };
 
   // ...
 }
 ```
 
-2. Passe o objeto `resources` como propriedade para os componentes `ResourcesContainer` e `ActionsContainer`.
+2. Passe o objeto `resources` como propriedade para o componente `ResourcesContainer`.
 
 ```tsx
 /* App.tsx */
@@ -278,7 +308,7 @@ return (
   <article className={styles.container}>
     <Header />
     <ResourcesContainer resources={resources} />
-    <ActionsContainer resources={resources} />
+    <ActionsContainer />
   </article>
 );
 ```
@@ -297,41 +327,6 @@ export default function ResourcesContainer({
 }: ResourcesContainerProps) {
   // ...
 }
-```
-
-4. Receba o objeto `resources` como propriedade no componente `ActionsContainer`.
-
-```tsx
-/* ActionsContainer.tsx */
-
-interface ActionsContainerProps {
-  resources: Resources;
-}
-
-export default function ActionsContainer({ resources }: ActionsContainerProps) {
-  // ...
-}
-```
-
-5. Atualize as propriedades `trades` das ações para que elas recebam a lista de recursos disponíveis.
-
-```tsx
-/* ActionsContainer.tsx */
-
-const chopWood: Action = {
-  name: "Cortar Madeira",
-  icon: "🪓",
-  trades: [{ resource: resources.wood, quantity: +1 }],
-};
-
-const sellWood: Action = {
-  name: "Vender Madeira",
-  icon: "💰",
-  trades: [
-    { resource: resources.wood, quantity: -1 },
-    { resource: resources.coin, quantity: +1 },
-  ],
-};
 ```
 
 ## Hook useState
@@ -356,7 +351,7 @@ Ele permite que, ao atualizar o estado, o componente seja renderizado novamente 
 import { useState } from "react";
 ```
 
-2. Apague as definições dos objetos `resource` e `resources`. Então use o hook `useState` para criar um estado que armazena os dados definidos anteriormente.
+2. Use o hook `useState` para criar um estado que armazena os dados definidos anteriormente no objeto `resources`.
 
 ```tsx
 /* App.tsx */
@@ -380,13 +375,13 @@ export default function App() {
 ```
 
 <Aside type="note">
-  O hook [`**useState**`](https://pt-br.react.dev/reference/react/useState)
+  O hook [**useState**](https://pt-br.react.dev/reference/react/useState)
   retorna um array com dois elementos. O primeiro é o estado atual, que é
   inicializado com o valor passado como argumento. O segundo é uma função que
   atualiza o estado, a qual pode ser chamada para inserir um novo valor.
 </Aside>
 
-3. Passe a função `setResources` como propriedade para o componente `ActionsContainer`.
+3. Passe o objeto `resources` e a função `setResources` como propriedades para o componente `ActionsContainer`.
 
 ```tsx
 /* App.tsx */
@@ -394,7 +389,7 @@ export default function App() {
 <ActionsContainer resources={resources} setResources={setResources} />
 ```
 
-4. Receba a função `setResources` como propriedade no componente `ActionsContainer`.
+4. Receba o objeto `resources` e a função `setResources` como propriedades no componente `ActionsContainer`.
 
 ```tsx
 /* ActionsContainer.tsx */
@@ -405,7 +400,7 @@ interface ActionsContainerProps {
 }
 ```
 
-5. Atualize a função que define o componente `ActionsContainer` para que ela receba a função `setResources`.
+5. Atualize a função que define o componente `ActionsContainer` para que ela receba o objeto `resources` e a função `setResources`.
 
 ```tsx
 export default function ActionsContainer({
@@ -416,22 +411,31 @@ export default function ActionsContainer({
 }
 ```
 
-6. Passe a função `setResources` como propriedade para os componentes `ActionButton`.
+6. Passe o objeto `resources` e a função `setResources` como propriedades para os componentes `ActionButton`.
 
 ```tsx
 /* ActionsContainer.tsx */
 
-<ActionButton action={actions.chopWood} setResources={setResources} />
-<ActionButton action={actions.sellWood} setResources={setResources} />
+<ActionButton
+  action={actions.chopWood}
+  resources={resources}
+  setResources={setResources}
+/>
+<ActionButton
+  action={actions.sellWood}
+  resources={resources}
+  setResources={setResources}
+/>
 ```
 
-7. Receba a função `setResources` como propriedade no componente `ActionButton`.
+7. Receba o objeto `resources` e a função `setResources` como propriedades no componente `ActionButton`.
 
 ```tsx
 /* ActionButton.tsx */
 
 interface ActionButtonProps {
   action: Action;
+  resources: Resources;
   setResources: React.Dispatch<React.SetStateAction<Resources>>;
 }
 ```
@@ -443,6 +447,7 @@ interface ActionButtonProps {
 
 export default function ActionButton({
   action,
+  resources,
   setResources,
 }: ActionButtonProps) {
   // ...
@@ -453,24 +458,31 @@ export default function ActionButton({
 
 Vamos atualizar a função `performTrade` no componente `ActionButton` para que ela calcule as trocas e atualize o estado dos recursos.
 
-1.  Inicialize uma variável para determinar se é possível executar todas as trocas necessárias para a ação.
+1.  Inicialize uma variável para determinar se é possível executar todas as trocas necessárias para a ação. Também crie uma cópia do objeto `resources` por meio do operador de espalhamento (`...`).
 
 ```tsx
 /* ActionButton.tsx */
 
 const performTrade = () => {
   let tradeIsPossible = true;
+  const updatedResources = { ...resources };
 
   // ...
 };
 ```
+
+<Aside type="note">
+  Utilizamos o operador de
+  [**espalhamento**](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+  (`...`) para copiar todos os recursos do estado atual para um temporário.
+</Aside>
 
 2.  Itere sobre as trocas necessárias para a ação, recebendo pelos parâmetros o recurso e a quantidade a ser alterada. Podemos utilizar a sintaxe de desestruturação para acessá-los.
 
 ```tsx
 /* ActionButton.tsx */
 
-action.trades.forEach(({ resource, quantity }) => {
+action.trades.forEach(({ resourceType, quantity }) => {
   // ...
 });
 ```
@@ -483,16 +495,17 @@ action.trades.forEach(({ resource, quantity }) => {
   atual, o índice do elemento e o vetor completo.
 </Aside>
 
-3.  Dentro do `forEach`, calcule o novo valor do recurso e verifique se a troca é possível.
+3.  Dentro do método `forEach`, obtenha o objeto `resource` a partir da sua chave. Então, calcule o novo valor do recurso e verifique se a troca é possível.
 
 ```tsx
 /* ActionButton.tsx */
 
+const resource = updatedResources[resourceType];
 const newAmount = resource.amount + quantity;
 tradeIsPossible = tradeIsPossible && newAmount >= 0;
 ```
 
-4.  Dentro do `forEach`, caso a troca seja possível, atualize o valor do recurso.
+4.  Dentro do método `forEach`, caso a troca seja possível, atualize o valor do recurso.
 
 ```tsx
 /* ActionButton.tsx */
@@ -500,21 +513,13 @@ tradeIsPossible = tradeIsPossible && newAmount >= 0;
 if (tradeIsPossible) resource.amount = newAmount;
 ```
 
-5.  Após o `forEach`, verifique se todas as trocas foram possíveis e, caso positivo, atualize o estado dos recursos.
+5.  Após o método `forEach`, verifique se todas as trocas foram possíveis e, caso positivo, atualize o estado dos recursos.
 
 ```tsx
 /* ActionButton.tsx */
 
-if (tradeIsPossible) setResources(resources => ({ ...resources }));
+if (tradeIsPossible) setResources(updatedResources);
 ```
-
-<Aside type="note">
-  A função `setResources` recebe uma função de *callback* que retorna o novo
-  estado. Ela passa como parâmetro o valor do estado antes de fazermos a
-  atualização. Então, utilizamos o operador de
-  [**espalhamento**](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
-  (`...`) para copiar todos os recursos atualizados para o estado existente.
-</Aside>
 
 O código final da função `performTrade` deve ser igual ao seguinte:
 
@@ -523,15 +528,17 @@ O código final da função `performTrade` deve ser igual ao seguinte:
 
 const performTrade = () => {
   let tradeIsPossible = true;
+  const updatedResources = { ...resources };
 
-  action.trades.forEach(({ resource, quantity }) => {
+  action.trades.forEach(({ resourceType, quantity }) => {
+    const resource = updatedResources[resourceType];
     const newAmount = resource.amount + quantity;
-    tradeIsPossible = tradeIsPossible && newAmount >= 0;
 
+    tradeIsPossible = tradeIsPossible && newAmount >= 0;
     if (tradeIsPossible) resource.amount = newAmount;
   });
 
-  if (tradeIsPossible) setResources(resources => ({ ...resources }));
+  if (tradeIsPossible) setResources(updatedResources);
 };
 ```
 
@@ -547,19 +554,27 @@ O jogador não tem como saber quais são as quantidades envolvidas nas trocas!
 ### Lista de trocas
 
 Para resolver isso, vamos editar o componente `ActionButton` para exibir as quantidades de troca.
-Após o elemento `<button>`, crie um elemento de lista não ordenada [`<ul>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul).
+
+1. Antes da keyword `return`, crie um objeto `listItems`, que mapeia cada troca para um elemento de item de lista [`<li>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/li).
 
 ```tsx
-/* ActionButton.tsx */
-
-<ul className={styles.trades}>
-  {action.trades.map(({ resource, quantity }) => (
+const listItems = action.trades.map(({ resourceType, quantity }) => {
+  const resource = resources[resourceType];
+  return (
     <li key={resource.name}>
       {quantity > 0 ? "+" : ""}
       {quantity} {resource.icon} {resource.name}
     </li>
-  ))}
-</ul>
+  );
+});
+```
+
+2. Depois do elemento `<button>`, adicione um elemento de lista não ordenada [`<ul>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/ul). Dentro dele, adicione o objeto `listItems`.
+
+```tsx
+/* ActionButton.tsx */
+
+<ul className={styles.trades}>{listItems}</ul>
 ```
 
 O resultado final deve ser como o seguinte:
@@ -578,16 +593,16 @@ O resultado final deve ser como o seguinte:
 
 Agora, vamos adicionar dois novos recursos: casa e trabalhador.
 
-1. Edite o tipo `Resources` no arquivo `types.ts` para incluir os novos recursos.
+1. Edite a enumeração `ResourceType` no arquivo `types.ts` para incluir os novos recursos `house` e `worker`.
 
 ```ts
 /* types.ts */
 
-export interface Resources {
-  wood: Resource;
-  coin: Resource;
-  house: Resource;
-  worker: Resource;
+export enum ResourceType {
+  wood = "wood",
+  coin = "coin",
+  house = "house",
+  worker = "worker",
 }
 ```
 
@@ -628,13 +643,19 @@ const [resources, setResources] = useState<Resources>({
 return (
   <section className={styles.container}>
     <div className={styles.group}>
-      {Object.values(resources).map(resource => (
-        <ResourceDisplay key={resource.name} resource={resource} />
+      {Object.entries(resources).map(([resourceType, resource]) => (
+        <ResourceDisplay key={resourceType} resource={resource} />
       ))}
     </div>
   </section>
 );
 ```
+
+<Aside type="note">
+  Quando mapeamos um dado para uma lista de componentes, é importante definir
+  uma chave única para cada componente. Isso ajuda o React a identificar quais
+  componentes foram alterados, adicionados ou removidos.
+</Aside>
 
 O resultado final deve ser como o seguinte:
 
@@ -654,49 +675,56 @@ Vamos adicionar duas novas ações: construir casa e contratar trabalhador.
 A casa custa madeira e moedas.
 Já o trabalhador precisa do salário pago em moedas e de uma casa para morar.
 
-1. Edite o tipo `Actions` no arquivo `types.ts` para incluir as novas ações.
+1. Edite a enumeração `ActionType` no arquivo `types.ts` para incluir as novas ações.
 
 ```ts
 /* types.ts */
 
-export interface Actions {
-  chopWood: Action;
-  sellWood: Action;
-  buildHouse: Action;
-  hireWorker: Action;
+export enum ActionType {
+  chopWood = "chopWood",
+  sellWood = "sellWood",
+  buildHouse = "buildHouse",
+  hireWorker = "hireWorker",
 }
 ```
 
-2. Adicione os objetos `buildHouse` e `hireWorker` ao estado inicial de ações no componente `ActionsContainer`.
+2. Adicione os objetos `buildHouse` e `hireWorker` à constante de ações no componente `ActionsContainer`.
 
 ```tsx
 /* ActionsContainer.tsx */
 
-const buildHouse: Action = {
-  name: "Construir Casa",
-  icon: "🛠️",
-  trades: [
-    { resource: resources.wood, quantity: -5 },
-    { resource: resources.coin, quantity: -5 },
-    { resource: resources.house, quantity: +1 },
-  ],
-};
-
-const hireWorker: Action = {
-  name: "Contratar Trabalhador",
-  icon: "🧾",
-  trades: [
-    { resource: resources.coin, quantity: -10 },
-    { resource: resources.house, quantity: -1 },
-    { resource: resources.worker, quantity: +1 },
-  ],
-};
-
 const actions: Actions = {
-  chopWood,
-  sellWood,
-  buildHouse,
-  hireWorker,
+  chopWood: {
+    name: "Cortar Madeira",
+    icon: "🪓",
+    trades: [{ resourceType: ResourceType.wood, quantity: +1 }],
+  },
+  sellWood: {
+    name: "Vender Madeira",
+    icon: "💰",
+    trades: [
+      { resourceType: ResourceType.wood, quantity: -1 },
+      { resourceType: ResourceType.coin, quantity: +1 },
+    ],
+  },
+  buildHouse: {
+    name: "Construir Casa",
+    icon: "🛠️",
+    trades: [
+      { resourceType: ResourceType.wood, quantity: -5 },
+      { resourceType: ResourceType.coin, quantity: -5 },
+      { resourceType: ResourceType.house, quantity: +1 },
+    ],
+  },
+  hireWorker: {
+    name: "Contratar Trabalhador",
+    icon: "🧾",
+    trades: [
+      { resourceType: ResourceType.coin, quantity: -10 },
+      { resourceType: ResourceType.house, quantity: -1 },
+      { resourceType: ResourceType.worker, quantity: +1 },
+    ],
+  },
 };
 ```
 
@@ -708,10 +736,11 @@ const actions: Actions = {
 return (
   <section className={styles.container}>
     <div className={styles.group}>
-      {Object.values(actions).map(action => (
+      {Object.entries(actions).map(([actionType, action]) => (
         <ActionButton
-          key={action.name}
+          key={actionType}
           action={action}
+          resources={resources}
           setResources={setResources}
         />
       ))}

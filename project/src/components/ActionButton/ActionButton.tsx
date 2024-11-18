@@ -24,7 +24,8 @@ export default function ActionButton({
       tradeIsPossible = tradeIsPossible && newAmount >= 0;
       if (tradeIsPossible) resource.amount = newAmount;
     });
-    setResources(updatedResources);
+
+    if (tradeIsPossible) setResources(updatedResources);
   };
 
   const listItems = action.trades.map(({ resourceType, quantity }) => {
