@@ -1,4 +1,4 @@
-import { Action, Actions, Resources } from "../../types";
+import { Action, Actions, Resources, ResourceType } from "../../types";
 import ActionButton from "../ActionButton/ActionButton";
 import styles from "./ActionsContainer.module.css";
 
@@ -16,15 +16,15 @@ export default function ActionsContainer({
   const chopWood: Action = {
     name: "Cortar Madeira",
     icon: "🪓",
-    trades: [{ resource: resources.wood, quantity: +1 }],
+    trades: [{ resourceType: ResourceType.wood, quantity: +1 }],
   };
 
   const sellWood: Action = {
     name: "Vender Madeira",
     icon: "💰",
     trades: [
-      { resource: resources.wood, quantity: -1 },
-      { resource: resources.coin, quantity: +1 },
+      { resourceType: ResourceType.wood, quantity: -1 },
+      { resourceType: ResourceType.coin, quantity: +1 },
     ],
   };
 
@@ -32,9 +32,9 @@ export default function ActionsContainer({
     name: "Construir Casa",
     icon: "🛠️",
     trades: [
-      { resource: resources.wood, quantity: -5 },
-      { resource: resources.coin, quantity: -5 },
-      { resource: resources.house, quantity: +1 },
+      { resourceType: ResourceType.wood, quantity: -5 },
+      { resourceType: ResourceType.coin, quantity: -5 },
+      { resourceType: ResourceType.house, quantity: +1 },
     ],
   };
 
@@ -42,9 +42,9 @@ export default function ActionsContainer({
     name: "Contratar Trabalhador",
     icon: "🧾",
     trades: [
-      { resource: resources.coin, quantity: -10 },
-      { resource: resources.house, quantity: -1 },
-      { resource: resources.worker, quantity: +1 },
+      { resourceType: ResourceType.coin, quantity: -10 },
+      { resourceType: ResourceType.house, quantity: -1 },
+      { resourceType: ResourceType.worker, quantity: +1 },
     ],
   };
 
@@ -62,6 +62,7 @@ export default function ActionsContainer({
           <ActionButton
             key={action.name}
             action={action}
+            resources={resources}
             setResources={setResources}
           />
         ))}

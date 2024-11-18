@@ -1,3 +1,10 @@
+export enum ResourceType {
+  wood = "wood",
+  coin = "coin",
+  house = "house",
+  worker = "worker",
+}
+
 export interface Resource {
   name: string;
   icon: string;
@@ -5,16 +12,18 @@ export interface Resource {
   production: number;
 }
 
-export interface Resources {
-  wood: Resource;
-  coin: Resource;
-  house: Resource;
-  worker: Resource;
-}
+export type Resources = { [Property in keyof typeof ResourceType]: Resource };
 
 export interface Trade {
-  resource: Resource;
+  resourceType: ResourceType;
   quantity: number;
+}
+
+export enum ActionType {
+  chopWood = "chopWood",
+  sellWood = "sellWood",
+  buildHouse = "buildHouse",
+  hireWorker = "hireWorker",
 }
 
 export interface Action {
@@ -23,9 +32,4 @@ export interface Action {
   trades: Trade[];
 }
 
-export interface Actions {
-  chopWood: Action;
-  sellWood: Action;
-  buildHouse: Action;
-  hireWorker: Action;
-}
+export type Actions = { [Property in ActionType]: Action };

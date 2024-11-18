@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Resources } from "../../types";
+import { useEffect, useState } from "react";
+import { Resource, Resources } from "../../types";
 import ActionsContainer from "../ActionsContainer/ActionsContainer";
 import Header from "../Header/Header";
 import ResourcesContainer from "../ResourcesContainer/ResourcesContainer";
@@ -32,6 +32,32 @@ export default function App() {
       production: 0,
     },
   });
+
+  const produceResource = (resource: Resource) => {
+    let newAmount = resource.amount + resource.production;
+    if (newAmount < 0) newAmount = 0;
+    return {
+      ...resource,
+      amount: newAmount,
+    };
+  };
+
+  useEffect(() => {
+    const produceResources = () => {
+      setResources((resources: Resources) => {
+        const updatedResources: Resources = {
+          wood: produceResource(resources.wood),
+          coin: produceResource(resources.coin),
+          house: produceResource(resources.house),
+          worker: produceResource(resources.worker),
+        };
+        return updatedResources;
+      });
+    };
+
+    const interval = setInterval(produceResources, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <article className={styles.container}>

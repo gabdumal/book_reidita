@@ -12,8 +12,8 @@ export default function ResourcesContainer({
   return (
     <section className={styles.container}>
       <div className={styles.group}>
-        {Object.values(resources).map(resource => (
-          <ResourceDisplay key={resource.name} resource={resource} />
+        {Object.entries(resources).map(([resourceName, resource]) => (
+          <ResourceDisplay key={resourceName} resource={resource} />
         ))}
       </div>
     </section>
