@@ -66,15 +66,23 @@ const [resources, setResources] = useState<Resources>({
 ```tsx
 /* ResourceDisplay.tsx */
 
-<div className={styles.data}>
-  <p className={styles.amount}>{resource.amount}</p>
-  <p className={styles.production}>{resource.production} / s</p>
-</div>
+return (
+  <div className={styles.box}>
+    <h1 className={styles.name}>{resource.name}</h1>
+    <span className={styles.icon}>{resource.icon}</span>
+    <div className={styles.data}>
+      <p className={styles.amount}>{resource.amount}</p>
+      <p className={styles.production}>{resource.production} / s</p>
+    </div>
+  </div>
+);
 ```
 
 4. Atualize o arquivo `ResourceDisplay.module.css` para estilizar o componente com o novo campo de produção.
 
 ```css
+/* ResourceDisplay.module.css */
+
 .box {
   display: flex;
   flex-direction: column;
@@ -182,6 +190,8 @@ useEffect(() => {
 2. Crie uma função `produceResources`, então a chame logo em seguida.
 
 ```tsx
+/* App.tsx */
+
 useEffect(() => {
   const produceResources = () => {
     console.log("Produzindo recursos...");
@@ -193,6 +203,8 @@ useEffect(() => {
 3. Substitua a chamada da função pela inicialização de um intervalo de 1 segundo. Isso imprimirá a mensagem a cada segundo.
 
 ```tsx
+/* App.tsx */
+
 useEffect(() => {
   const produceResources = () => {
     console.log("Produzindo recursos...");
@@ -211,9 +223,11 @@ useEffect(() => {
   montado.
 </Aside>
 
-5. Fora do `useEffect`, crie uma função que recebe um recurso, calcula a quantidade nova no estoque, e retorna um novo objeto modificado.
+5. **Antes** do `useEffect`, crie uma função que recebe um recurso, calcula a quantidade nova no estoque, e retorna um novo objeto modificado.
 
 ```tsx
+/* App.tsx */
+
 const produceResource = (resource: Resource) => {
   let newAmount = resource.amount + resource.production;
   if (newAmount < 0) newAmount = 0;
@@ -227,6 +241,8 @@ const produceResource = (resource: Resource) => {
 6. Atualize a função `produceResources` para retornar o estoque de recursos atualizado.
 
 ```tsx
+/* App.tsx */
+
 useEffect(() => {
   const produceResources = () => {
     setResources((resources: Resources) => {
@@ -353,3 +369,5 @@ const performTrade = () => {
   if (tradeIsPossible) setResources(updatedResources);
 };
 ```
+
+Agora, ao contratar um trabalhador, a produção de madeira aumentará em 1 unidade por segundo.
