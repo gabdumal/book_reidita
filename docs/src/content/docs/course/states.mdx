@@ -469,7 +469,7 @@ const performTrade = () => {
   let tradeIsPossible = true;
   const updatedResources = { ...resources };
 
-  // ...
+  // Vamos colocar a próxima instrução aqui...
 };
 ```
 
@@ -479,13 +479,15 @@ const performTrade = () => {
   (`...`) para copiar todos os recursos do estado atual para um temporário.
 </Aside>
 
-2.  Itere sobre as trocas necessárias para a ação, recebendo pelos parâmetros o recurso e a quantidade a ser alterada. Podemos utilizar a sintaxe de desestruturação para acessá-los.
+2.  Dentro da função `performTrade`, itere sobre as trocas necessárias para a ação, recebendo pelos parâmetros o recurso e a quantidade a ser alterada. Podemos utilizar a sintaxe de desestruturação para acessá-los.
 
 ```tsx
 /* ActionButton.tsx */
 
+// Definimos as duas variáveis aqui em cima...
+
 action.trades.forEach(({ resourceType, amount }) => {
-  // ...
+  // Vamos colocar a próxima instrução aqui...
 });
 ```
 
@@ -497,30 +499,58 @@ action.trades.forEach(({ resourceType, amount }) => {
   atual, o índice do elemento e o vetor completo.
 </Aside>
 
-3.  Dentro do método `forEach`, obtenha o objeto `resource` a partir da sua chave. Então, calcule o novo valor do recurso e verifique se a troca é possível.
+3.  Dentro do método `forEach`, obtenha uma cópia do objeto `resource` a partir da sua chave.
 
 ```tsx
 /* ActionButton.tsx */
 
-const resource = updatedResources[resourceType];
+// Estamos dentro do método forEach...
+
+const resource = { ...updatedResources[resourceType] };
+```
+
+4. Ainda dentro do método `forEach`, calcule o novo valor do recurso e verifique se a troca é possível.
+
+```tsx
+/* ActionButton.tsx */
+
+// Estamos dentro do método forEach...
+
 const newAmount = resource.amount + amount;
 tradeIsPossible = tradeIsPossible && newAmount >= 0;
 ```
 
-4.  Dentro do método `forEach`, caso a troca seja possível, atualize o valor do recurso.
+5.  Dentro do método `forEach`, defina o novo valor para a quantidade do recurso. Então, reencaixe o objeto no `updatedResources`.
 
 ```tsx
 /* ActionButton.tsx */
 
-if (tradeIsPossible) resource.amount = newAmount;
+// Estamos dentro do método forEach...
+
+resource.amount = newAmount;
+updatedResources[resourceType] = resource;
 ```
 
-5.  Após o método `forEach`, verifique se todas as trocas foram possíveis e, caso positivo, atualize o estado dos recursos.
+6.  **Após** o método `forEach`, verifique se todas as trocas foram possíveis e, caso positivo, atualize o estado dos recursos.
 
 ```tsx
 /* ActionButton.tsx */
 
+action.trades.forEach(({ resourceType, amount }) => {
+  // Aqui dentro está todo o código que acabamos de escrever...
+});
+
 if (tradeIsPossible) setResources(updatedResources);
+```
+
+7. Adicione um atributo `onClick` ao botão que chama a função `performTrade`.
+
+```tsx
+/* ActionButton.tsx */
+
+<button className={styles.button} onClick={performTrade}>
+  <span className={styles.icon}>{action.icon}</span>
+</button>
 ```
 
 O código final da função `performTrade` deve ser igual ao seguinte:
