@@ -17,32 +17,33 @@ export default function ActionsContainer({
     chopWood: {
       name: "Cortar Madeira",
       icon: "🪓",
-      trades: [{ resourceType: ResourceType.wood, quantity: +1 }],
+      trades: [{ resourceType: ResourceType.wood, amount: +1, production: 0 }],
     },
     sellWood: {
       name: "Vender Madeira",
       icon: "💰",
       trades: [
-        { resourceType: ResourceType.wood, quantity: -1 },
-        { resourceType: ResourceType.coin, quantity: +1 },
+        { resourceType: ResourceType.wood, amount: -1, production: 0 },
+        { resourceType: ResourceType.coin, amount: +1, production: 0 },
       ],
     },
     buildHouse: {
       name: "Construir Casa",
       icon: "🛠️",
       trades: [
-        { resourceType: ResourceType.wood, quantity: -5 },
-        { resourceType: ResourceType.coin, quantity: -5 },
-        { resourceType: ResourceType.house, quantity: +1 },
+        { resourceType: ResourceType.wood, amount: -5, production: 0 },
+        { resourceType: ResourceType.coin, amount: -5, production: 0 },
+        { resourceType: ResourceType.house, amount: +1, production: 0 },
       ],
     },
     hireWorker: {
       name: "Contratar Trabalhador",
       icon: "🧾",
       trades: [
-        { resourceType: ResourceType.coin, quantity: -10 },
-        { resourceType: ResourceType.house, quantity: -1 },
-        { resourceType: ResourceType.worker, quantity: +1 },
+        { resourceType: ResourceType.wood, amount: 0, production: 1 },
+        { resourceType: ResourceType.coin, amount: -10, production: 0 },
+        { resourceType: ResourceType.house, amount: -1, production: 0 },
+        { resourceType: ResourceType.worker, amount: +1, production: 0 },
       ],
     },
   };

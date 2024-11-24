@@ -16,7 +16,8 @@ export type Resources = { [Property in keyof typeof ResourceType]: Resource };
 
 export interface Trade {
   resourceType: ResourceType;
-  quantity: number;
+  amount: number;
+  production: number;
 }
 
 export enum ActionType {

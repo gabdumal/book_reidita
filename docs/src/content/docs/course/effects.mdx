@@ -246,5 +246,110 @@ useEffect(() => {
 ```
 
 Para testar, mude o valor de produção do recurso `wood` para 1 e recarregue a página.
-Possivelmente você verá a quantidade de madeira aumentar em duas unidades em vez de uma só.
-Isso ocorre pois, no modo de desenvolvimento, o React monta o componente, desmonta-o e monta novamente, a fim de testar se a lógica de implementação está correta.
+Você verá que a quantidade de madeira aumenta a cada segundo.
+
+## Alterando a produção
+
+Assim como fizemos com a quantidade de recursos no estoque, podemos aprimorar as estruturas de dados para aumentar a produção de um recurso quando executamos uma ação.
+
+Vamos fazer isso para representar que, ao contratar um trabalhador, a produção de madeira aumenta, já que ele estará cortando as árvores.
+
+1. Atualize a definição da interface `Trade` para incluir um campo `production`.
+
+```ts
+/* types.ts */
+
+export interface Trade {
+  resourceType: ResourceType;
+  amount: number;
+  production: number;
+}
+```
+
+2. No componente `ActionsContainer`, atualize **todos** os atributos `trades` para definir a produção como 0.
+
+```tsx
+/* ActionsContainer.tsx */
+
+const actions: Actions = {
+  chopWood: {
+    name: "Cortar Madeira",
+    icon: "🪓",
+    trades: [{ resourceType: ResourceType.wood, amount: +1, production: 0 }],
+  },
+  sellWood: {
+    name: "Vender Madeira",
+    icon: "💰",
+    trades: [
+      { resourceType: ResourceType.wood, amount: -1, production: 0 },
+      { resourceType: ResourceType.coin, amount: +1, production: 0 },
+    ],
+  },
+  buildHouse: {
+    name: "Construir Casa",
+    icon: "🛠️",
+    trades: [
+      { resourceType: ResourceType.wood, amount: -5, production: 0 },
+      { resourceType: ResourceType.coin, amount: -5, production: 0 },
+      { resourceType: ResourceType.house, amount: +1, production: 0 },
+    ],
+  },
+  hireWorker: {
+    name: "Contratar Trabalhador",
+    icon: "🧾",
+    trades: [
+      { resourceType: ResourceType.coin, amount: -10, production: 0 },
+      { resourceType: ResourceType.house, amount: -1, production: 0 },
+      { resourceType: ResourceType.worker, amount: +1, production: 0 },
+    ],
+  },
+};
+```
+
+3. Para o atributo `hireWorker`, crie uma nova troca, cuja produção de madeira seja 1.
+
+```tsx
+/* ActionsContainer.tsx */
+
+// ...
+
+hireWorker: {
+  name: "Contratar Trabalhador",
+  icon: "🧾",
+  trades: [
+    { resourceType: ResourceType.wood, amount: 0, production: 1 },
+    { resourceType: ResourceType.coin, amount: -10, production: 0 },
+    { resourceType: ResourceType.house, amount: -1, production: 0 },
+    { resourceType: ResourceType.worker, amount: +1, production: 0 },
+  ],
+},
+
+// ...
+```
+
+4. Atualize a função `performTrade` no componente `ActionButton` para atualizar a produção dos recursos.
+
+```tsx
+/* ActionButton.tsx */
+
+const performTrade = () => {
+  let tradeIsPossible = true;
+  const updatedResources = { ...resources };
+
+  action.trades.forEach(({ resourceType, amount, production }) => {
+    const resource = { ...updatedResources[resourceType] };
+
+    const newAmount = resource.amount + amount;
+    const newProduction = resource.production + production;
+
+    tradeIsPossible = tradeIsPossible && newAmount >= 0;
+    tradeIsPossible = tradeIsPossible && newProduction >= 0;
+
+    resource.amount = newAmount;
+    resource.production = newProduction;
+    updatedResources[resourceType] = resource;
+  });
+
+  if (tradeIsPossible) setResources(updatedResources);
+};
+```

@@ -18,6 +18,8 @@ Escrevemos seu código na linguagem de marcação **JSX** (JavaScript XML), que 
 Você pode ter percebido que o arquivo `App.tsx` que criamos anteriormente é um componente!
 
 ```tsx
+/* App.tsx */
+
 export default function App() {
   return (
     <article>
@@ -44,6 +46,8 @@ Para utilizar CSS Modules, basta criar um arquivo CSS com o mesmo nome do seu co
 Por exemplo, para o componente `App.tsx`, crie um arquivo `App.module.css`.
 
 ```css
+/* App.module.css */
+
 .container {
   display: flex;
   flex-direction: column;
@@ -58,6 +62,8 @@ O CSS é convertido em um objeto JavaScript, onde cada classe é uma propriedade
 Para utilizar essas classes no seu componente, importe o arquivo CSS no topo do arquivo `App.tsx`, dando o nome `styles` para o objeto de estilos.
 
 ```tsx
+/* App.tsx */
+
 import styles from "./App.module.css";
 ```
 
@@ -65,18 +71,21 @@ Então, adicione o atributo `className` ao elemento [`<article>`](https://develo
 Passe para ele a classe `styles.container`.
 
 ```tsx
+/* App.tsx */
+
 <article className={styles.container}>
 ```
 
 O código completo do componente `App.tsx` ficará assim:
 
 ```tsx
+/* App.tsx */
+
 import styles from "./App.module.css";
 
 export default function App() {
   return (
     <article className={styles.container}>
-      <h1>Idle Clicker</h1>
       <p>
         Vamos construir um jogo de clicker simples para entendermos os conceitos
         básicos de React.
@@ -115,6 +124,8 @@ Para aderir a esse padrão, vamos fazer o seguinte:
 5. Edite o conteúdo do arquivo `main.tsx` para corrigir a importação do componente `App`.
 
 ```tsx
+/* main.tsx */
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -186,6 +197,8 @@ Para isso, usamos a palavra-chave `export`.
 Por sua vez, a palavra-chave `default` indica que esse componente é o principal do arquivo `Header.tsx` &mdash; nesse caso, é o único.
 
 ```tsx
+/* Header.tsx */
+
 export default function Header() {}
 ```
 
@@ -194,6 +207,8 @@ Todo componente no React deve retornar um &mdash; e apenas um &mdash; elemento H
 Neste caso, retornaremos um elemento de cabeçalho definido pela tag [`<header>`](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/header).
 
 ```tsx
+/* Header.tsx */
+
 export default function Header() {
   return <header></header>;
 }
@@ -212,6 +227,8 @@ Por fim, criaremos um elemento de título de nível 1, representado pela tag `<h
 Esse elemento é o mais importante de todos os títulos de uma página, e é frequentemente usado para o título principal.
 
 ```tsx
+/* Header.tsx */
+
 export default function Header() {
   return (
     <header>
@@ -238,12 +255,16 @@ Façamos isso em duas partes:
 1. Importe o componente `Header` no arquivo `App.tsx`.
 
 ```tsx
+/* App.tsx */
+
 import Header from "../Header/Header";
 ```
 
 2. Adicione o componente `Header` dentro do elemento `<article>` retornado pelo componente `App`.
 
 ```tsx
+/* App.tsx */
+
 import Header from "../Header/Header";
 import styles from "./App.module.css";
 
@@ -278,6 +299,8 @@ Eu quero que o título do jogo seja exibido em maior destaque, então vamos cria
 1. Abra o arquivo `Header.module.css` e adicione as seguintes regras de estilo:
 
 ```css
+/* Header.module.css */
+
 .header {
   &:global {
     animation: background-color-transform 30s cubic-bezier(0.4, 0, 0.6, 1)
@@ -298,12 +321,16 @@ Eu quero que o título do jogo seja exibido em maior destaque, então vamos cria
 2. Importe o arquivo CSS no topo do arquivo `Header.tsx`.
 
 ```tsx
+/* Header.tsx */
+
 import styles from "./Header.module.css";
 ```
 
 3. Adicione a classe `styles.header` ao elemento `<header>` e a classe `styles.title` ao elemento `<h1>`.
 
 ```tsx
+/* Header.tsx */
+
 return (
   <header className={styles.header}>
     <h1 className={styles.title}>Idle Clicker</h1>
@@ -340,6 +367,8 @@ Assim como no caso do cabeçalho, faz sentido criar um componente personalizado 
 3. Preencha-o com a estrutura básica do componente:
 
 ```tsx
+/* ResourcesContainer.tsx */
+
 import styles from "./ResourcesContainer.module.css";
 
 export default function ResourcesContainer() {
@@ -351,6 +380,8 @@ export default function ResourcesContainer() {
 5. Adicione a ele as seguintes regras de estilo:
 
 ```css
+/* ResourcesContainer.module.css */
+
 .container {
   display: flex;
   max-width: 100%;
@@ -371,6 +402,8 @@ export default function ResourcesContainer() {
 6. Importe o componente `ResourcesContainer` no arquivo `App.tsx`, e o adicione logo abaixo do componente `Header`.
 
 ```tsx
+/* App.tsx */
+
 import Header from "../Header/Header";
 import ResourcesContainer from "../ResourcesContainer/ResourcesContainer";
 import styles from "./App.module.css";
@@ -413,6 +446,8 @@ Para isso, criaremos outro componente, chamado `ResourceDisplay`.
 2. Dentro dela, crie um arquivo `ResourceDisplay.tsx` e o preencha com o seguinte código:
 
 ```tsx
+/* ResourceDisplay.tsx */
+
 import styles from "./ResourceDisplay.module.css";
 
 export default function ResourceDisplay() {
@@ -429,6 +464,8 @@ export default function ResourceDisplay() {
 3. Crie um arquivo `ResourceDisplay.module.css` para estilizar o componente e adicione a ele as seguintes regras de estilo:
 
 ```css
+/* ResourceDisplay.module.css */
+
 .box {
   display: flex;
   flex-direction: column;
@@ -465,6 +502,8 @@ export default function ResourceDisplay() {
 5. Crie um elemento [`<div>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div) com a classe `styles.group` e adicione o componente `ResourceDisplay` dentro dele.
 
 ```tsx
+/* ResourcesContainer.tsx */
+
 import ResourceDisplay from "../ResourceDisplay/ResourceDisplay";
 import styles from "./ResourcesContainer.module.css";
 

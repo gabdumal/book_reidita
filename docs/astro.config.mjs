@@ -37,10 +37,6 @@ export default defineConfig({
         {
           items: [
             {
-              label: "Objetivo",
-              slug: "course",
-            },
-            {
               label: "Instalação",
               slug: "course/installation",
             },

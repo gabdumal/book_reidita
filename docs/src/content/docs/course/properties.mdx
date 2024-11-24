@@ -304,6 +304,8 @@ Vamos adicionar uma função que imprime uma mensagem no console quando o botão
 2. Dentro da função `ActionButton`, crie uma função que imprime o nome da ação no console.
 
 ```tsx
+/* ActionButton.tsx */
+
 export default function ActionButton({ name, icon }: ActionButtonProps) {
   const performTrade = () => {
     console.log(`Realizando a ação: ${name}`);
@@ -321,6 +323,8 @@ export default function ActionButton({ name, icon }: ActionButtonProps) {
 3. Adicione ao botão um evento `onClick` que chama a função `performTrade`.
 
 ```tsx
+/* ActionButton.tsx */
+
 <button className={styles.button} onClick={performTrade}>
 ```
 

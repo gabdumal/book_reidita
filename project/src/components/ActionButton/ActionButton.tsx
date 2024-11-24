@@ -17,23 +17,29 @@ export default function ActionButton({
     let tradeIsPossible = true;
     const updatedResources = { ...resources };
 
-    action.trades.forEach(({ resourceType, quantity }) => {
-      const resource = updatedResources[resourceType];
-      const newAmount = resource.amount + quantity;
+    action.trades.forEach(({ resourceType, amount, production }) => {
+      const resource = { ...updatedResources[resourceType] };
+
+      const newAmount = resource.amount + amount;
+      const newProduction = resource.production + production;
 
       tradeIsPossible = tradeIsPossible && newAmount >= 0;
-      if (tradeIsPossible) resource.amount = newAmount;
+      tradeIsPossible = tradeIsPossible && newProduction >= 0;
+
+      resource.amount = newAmount;
+      resource.production = newProduction;
+      updatedResources[resourceType] = resource;
     });
 
     if (tradeIsPossible) setResources(updatedResources);
   };
 
-  const listItems = action.trades.map(({ resourceType, quantity }) => {
+  const listItems = action.trades.map(({ resourceType, amount }) => {
     const resource = resources[resourceType];
     return (
       <li key={resource.name}>
-        {quantity > 0 ? "+" : ""}
-        {quantity} {resource.icon} {resource.name}
+        {amount > 0 ? "+" : ""}
+        {amount} {resource.icon} {resource.name}
       </li>
     );
   });
