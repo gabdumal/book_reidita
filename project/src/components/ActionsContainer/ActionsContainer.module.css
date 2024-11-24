@@ -4,6 +4,12 @@
   overflow-x: scroll;
   padding-inline: 1rem;
   padding-block: 0.5rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .group {

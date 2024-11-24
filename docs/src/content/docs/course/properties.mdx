@@ -189,6 +189,7 @@ export default function ActionButton({ name, icon }: ActionButtonProps) {
   margin: 0;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .button:active {
@@ -252,6 +253,12 @@ export default function ActionsContainer() {
   overflow-x: scroll;
   padding-inline: 1rem;
   padding-block: 0.5rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .group {
@@ -301,7 +308,7 @@ Por enquanto, o botão de ação não faz nada.
 Vamos adicionar uma função que imprime uma mensagem no console quando o botão é clicado.
 
 1. Abra o arquivo `ActionButton.tsx`.
-2. Dentro da função `ActionButton`, crie uma função que imprime o nome da ação no console.
+2. Dentro da função `ActionButton`, **crie** uma função que imprime o nome da ação no console. Ela deve ser posicionada antes do `return`.
 
 ```tsx
 /* ActionButton.tsx */
@@ -310,6 +317,10 @@ export default function ActionButton({ name, icon }: ActionButtonProps) {
   const performTrade = () => {
     console.log(`Realizando a ação: ${name}`);
   };
+
+  return(
+    // ...
+  );
 }
 ```
 
