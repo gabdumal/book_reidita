@@ -6,6 +6,7 @@ author: Gabriel Malosto
 import Figure from "/src/components/Figure.astro";
 
 import cookieClicker from "/src/assets/content/docs/introduction/cookie_clicker.png";
+import final from "/src/assets/content/docs/course/final.png";
 
 Este livro pretende ensinar a criar um jogo do gênero _Idle Clicker_ para a Web.
 Utilizaremos as seguintes tecnologias:
@@ -33,6 +34,21 @@ O desenvolvimento da história apresenta diversos minigames e mecânicas.
     {
       src: cookieClicker,
       alt: `Porção do website do jogo Cookie Clicker. A imagem mostra um botão com a imagem de um cookie e um contador de cookies. Acima do botão, está escrito "Confeitaria de gabdumal. 39 cookies. Por segundo: 0". O cursor do mouse está posicionado sobre o botão, ao redor do qual aparecem imagens de cookies.`,
+    },
+  ]}
+/>
+
+## Objetivo
+
+Nosso objetivo é criar uma aplicação para a Web utilizando React.
+Criaremos um cabeçalho, uma lista de exibição dos recursos, e uma lista de botões para interagir com eles.
+
+<Figure
+  caption="Aplicação final."
+  images={[
+    {
+      src: final,
+      alt: `Página da aplicação final, mostrando um cabeçalho em que se lê "Idle Clicker", uma lista de caixas organizadas em um container horizontal, cada uma mostrando o nome de um recurso, o ícone associado a ele, a quantidade disponível e a produção por segundo. Abaixo, há uma lista de caixas, também em um container horizontal, cada uma mostrando o nome de uma ação, um botão com um ícone associado a ela e uma lista vertical de de todos os recursos associados àquela ação e suas quantidades necessárias.`,
     },
   ]}
 />

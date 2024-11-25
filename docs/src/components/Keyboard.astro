@@ -12,7 +12,7 @@ const { keys } = Astro.props;
       acc.push(<span class=""> + </span>);
     }
     acc.push(
-      <kbd class="bg-gray-200 font-mono px-1 py-0.5 rounded-sm">{key}</kbd>,
+      <kbd style="background-color: var(--sl-color-bg-inline-code);" class="font-mono px-1 py-0.5 rounded-sm">{key}</kbd>,
     );
     return acc;
   }, [])
